@@ -1,1 +1,1 @@
-# swtmockups
+# SWT Mockups

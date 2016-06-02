@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Container width="400" height="600">
+    <Label text="Hello World!" left="10" top="10"/>
+</Container>
