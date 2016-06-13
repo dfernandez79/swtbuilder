@@ -2,6 +2,10 @@ group 'swtbuilder'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
+apply plugin: 'application'
+
+mainClassName = "swtbuilder.viewer.Application"
+applicationDefaultJvmArgs = ["-XstartOnFirstThread"]
 
 repositories {
     mavenCentral()
