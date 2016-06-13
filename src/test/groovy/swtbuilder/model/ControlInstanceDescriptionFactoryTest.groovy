@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import groovy.transform.TypeChecked
 import org.eclipse.swt.widgets.Text

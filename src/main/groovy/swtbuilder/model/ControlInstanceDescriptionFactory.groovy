@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
@@ -12,11 +12,9 @@ import java.util.List
 @CompileStatic
 class ControlInstanceDescriptionFactory {
 
-    private List collected
+    private List<ControlInstanceDescription> collected = null
 
-    ControlInstanceDescriptionFactory() {
-        this(null)
-    }
+    ControlInstanceDescriptionFactory() {}
 
     private ControlInstanceDescriptionFactory(List<ControlInstanceDescription> collected) {
         this.collected = collected

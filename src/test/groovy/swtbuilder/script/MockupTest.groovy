@@ -1,8 +1,8 @@
-package swtmockups.script
+package swtbuilder.script
 
 import org.junit.Test
-import swtmockups.model.CompositeInstanceDescription
-import swtmockups.model.FormAttachmentDescription
+import swtbuilder.model.CompositeInstanceDescription
+import swtbuilder.model.FormAttachmentDescription
 
 import static org.junit.Assert.*
 

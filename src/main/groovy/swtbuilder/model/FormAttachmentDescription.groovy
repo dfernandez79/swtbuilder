@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import groovy.transform.Immutable
 import groovy.transform.TupleConstructor

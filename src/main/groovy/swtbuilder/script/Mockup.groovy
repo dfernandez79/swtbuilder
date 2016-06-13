@@ -1,10 +1,10 @@
-package swtmockups.script
+package swtbuilder.script
 
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.eclipse.swt.layout.FormAttachment
-import swtmockups.model.CompositeInstanceDescription
-import swtmockups.model.ControlInstanceDescriptionFactory
-import swtmockups.model.FormAttachmentDescription
+import swtbuilder.model.CompositeInstanceDescription
+import swtbuilder.model.ControlInstanceDescriptionFactory
+import swtbuilder.model.FormAttachmentDescription
 
 abstract class Mockup extends Script {
 

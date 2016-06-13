@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import org.junit.Test
 

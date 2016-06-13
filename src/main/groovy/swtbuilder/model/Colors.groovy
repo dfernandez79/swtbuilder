@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import org.eclipse.swt.SWT
 import org.eclipse.swt.graphics.Color

@@ -1,14 +1,14 @@
-package swtmockups.viewer
+package swtbuilder.viewer
 
 import groovy.transform.TypeChecked
 import org.eclipse.swt.layout.FillLayout
 import org.eclipse.swt.widgets.Control
 import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
-import swtmockups.model.ControlInstanceDescriptionFactory
+import swtbuilder.model.ControlInstanceDescriptionFactory
 
-import static swtmockups.model.Colors.darkGray
-import static swtmockups.model.FormAttachmentDescription.from
+import static swtbuilder.model.Colors.darkGray
+import static swtbuilder.model.FormAttachmentDescription.from
 
 @TypeChecked
 class MockupViewer {

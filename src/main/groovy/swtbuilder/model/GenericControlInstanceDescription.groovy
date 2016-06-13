@@ -1,4 +1,4 @@
-package swtmockups.model
+package swtbuilder.model
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
