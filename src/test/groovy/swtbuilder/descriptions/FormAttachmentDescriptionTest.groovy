@@ -1,4 +1,4 @@
-package swtbuilder.model
+package swtbuilder.descriptions
 
 import org.junit.Test
 

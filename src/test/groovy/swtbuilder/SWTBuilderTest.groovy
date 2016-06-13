@@ -1,19 +1,20 @@
-package swtbuilder.model
+package swtbuilder
 
 import groovy.transform.TypeChecked
 import org.eclipse.swt.widgets.Text
 import org.junit.Test
+import swtbuilder.descriptions.GenericControlInstanceDescription
 
 import static org.junit.Assert.*
 
 @TypeChecked
-class ControlInstanceDescriptionFactoryTest {
+class SWTBuilderTest {
 
-    private ControlInstanceDescriptionFactory factory = new ControlInstanceDescriptionFactory()
+    private SWTBuilder builder = new SWTBuilder()
 
     @Test
     void compositeWithoutChildren() {
-        def created = factory.composite(width: 100, height: 100) {}
+        def created = builder.composite(width: 100, height: 100) {}
 
         created.with {
             assertEquals children.size(), 0
@@ -24,7 +25,7 @@ class ControlInstanceDescriptionFactoryTest {
 
     @Test
     void compositeWithChildren() {
-        def created = factory.composite(width: 100, height: 100) {
+        def created = builder.composite(width: 100, height: 100) {
             label 'Hello world!'
         }
 
@@ -38,7 +39,7 @@ class ControlInstanceDescriptionFactoryTest {
 
     @Test
     void text() {
-        GenericControlInstanceDescription created = factory.text() as GenericControlInstanceDescription
+        GenericControlInstanceDescription created = builder.text() as GenericControlInstanceDescription
 
         created.with {
             assertEquals created.controlClass, Text

@@ -1,4 +1,4 @@
-package swtbuilder.model
+package swtbuilder.descriptions
 
 import org.eclipse.swt.SWT
 import org.eclipse.swt.graphics.Color

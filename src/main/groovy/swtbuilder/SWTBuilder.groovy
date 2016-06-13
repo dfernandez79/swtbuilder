@@ -1,22 +1,25 @@
-package swtbuilder.model
+package swtbuilder
 
 import groovy.transform.CompileStatic
 import groovy.transform.TypeChecked
 import org.eclipse.swt.SWT
 import org.eclipse.swt.custom.ScrolledComposite
 import org.eclipse.swt.widgets.*
+import swtbuilder.descriptions.CompositeInstanceDescription
+import swtbuilder.descriptions.ControlInstanceDescription
+import swtbuilder.descriptions.GenericControlInstanceDescription
 
 import java.util.List
 
 @TypeChecked
 @CompileStatic
-class ControlInstanceDescriptionFactory {
+class SWTBuilder {
 
     private List<ControlInstanceDescription> collected = null
 
-    ControlInstanceDescriptionFactory() {}
+    SWTBuilder() {}
 
-    private ControlInstanceDescriptionFactory(List<ControlInstanceDescription> collected) {
+    private SWTBuilder(List<ControlInstanceDescription> collected) {
         this.collected = collected
     }
 
@@ -25,10 +28,10 @@ class ControlInstanceDescriptionFactory {
         description
     }
 
-    private List<ControlInstanceDescription> collectChildrenWith(@DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+    private List<ControlInstanceDescription> collectChildrenWith(@DelegatesTo(SWTBuilder) Closure closure) {
         def children = []
 
-        closure.delegate = new ControlInstanceDescriptionFactory(children)
+        closure.delegate = new SWTBuilder(children)
         closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure()
         children
@@ -37,7 +40,7 @@ class ControlInstanceDescriptionFactory {
     CompositeInstanceDescription composite(Class<? extends Composite> controlClass,
                                            Map<String, ?> layoutProperties,
                                            Map<String, ?> controlProperties,
-                                           @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+                                           @DelegatesTo(SWTBuilder) Closure closure) {
         collect(
                 new CompositeInstanceDescription(
                         controlClass,
@@ -49,34 +52,34 @@ class ControlInstanceDescriptionFactory {
 
     CompositeInstanceDescription composite(Map<String, ?> layoutProperties,
                                            Map<String, ?> controlProperties,
-                                           @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+                                           @DelegatesTo(SWTBuilder) Closure closure) {
 
         composite Composite, layoutProperties, controlProperties, closure
     }
 
     // Use of default values ends in ambiguous method signature, that fails with type checking
     CompositeInstanceDescription composite(Map<String, ?> layoutProperties,
-                                           @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+                                           @DelegatesTo(SWTBuilder) Closure closure) {
         composite layoutProperties, [:], closure
     }
 
-    CompositeInstanceDescription composite(@DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+    CompositeInstanceDescription composite(@DelegatesTo(SWTBuilder) Closure closure) {
         composite [:], [:], closure
     }
 
 
     CompositeInstanceDescription scrolledComposite(Map<String, ?> layoutProperties,
                                                    Map<String, ?> controlProperties,
-                                                   @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+                                                   @DelegatesTo(SWTBuilder) Closure closure) {
         composite ScrolledComposite, layoutProperties, controlProperties, closure
     }
 
     CompositeInstanceDescription scrolledComposite(Map<String, ?> layoutProperties,
-                                                   @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+                                                   @DelegatesTo(SWTBuilder) Closure closure) {
         scrolledComposite layoutProperties, [:], closure
     }
 
-    CompositeInstanceDescription scrolledComposite(@DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
+    CompositeInstanceDescription scrolledComposite(@DelegatesTo(SWTBuilder) Closure closure) {
         scrolledComposite [:], [:], closure
     }
 

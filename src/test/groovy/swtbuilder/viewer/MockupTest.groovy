@@ -1,8 +1,8 @@
-package swtbuilder.script
+package swtbuilder.viewer
 
 import org.junit.Test
-import swtbuilder.model.CompositeInstanceDescription
-import swtbuilder.model.FormAttachmentDescription
+import swtbuilder.descriptions.CompositeInstanceDescription
+import swtbuilder.descriptions.FormAttachmentDescription
 
 import static org.junit.Assert.*
 

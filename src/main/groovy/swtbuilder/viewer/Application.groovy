@@ -5,18 +5,18 @@ import org.eclipse.swt.layout.FillLayout
 import org.eclipse.swt.widgets.Control
 import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.Shell
-import swtbuilder.model.ControlInstanceDescriptionFactory
+import swtbuilder.SWTBuilder
 
-import static swtbuilder.model.Colors.darkGray
-import static swtbuilder.model.FormAttachmentDescription.from
+import static swtbuilder.descriptions.Colors.darkGray
+import static swtbuilder.descriptions.FormAttachmentDescription.from
 
 @TypeChecked
-class MockupViewer {
+class Application {
 
     static void main(String[] args) {
         System.setProperty("org.eclipse.swt.internal.carbon.smallFonts", "");
         try {
-            MockupViewer window = new MockupViewer();
+            Application window = new Application();
             window.open();
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ class MockupViewer {
         shell.text = "SWT Mockup Viewer"
         shell.layout = new FillLayout()
 
-        ControlInstanceDescriptionFactory factory = new ControlInstanceDescriptionFactory()
+        SWTBuilder factory = new SWTBuilder()
 
         Map<String, Control> controls = factory.composite {
 

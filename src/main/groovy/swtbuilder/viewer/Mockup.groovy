@@ -1,10 +1,9 @@
-package swtbuilder.script
+package swtbuilder.viewer
 
 import org.codehaus.groovy.control.CompilerConfiguration
-import org.eclipse.swt.layout.FormAttachment
-import swtbuilder.model.CompositeInstanceDescription
-import swtbuilder.model.ControlInstanceDescriptionFactory
-import swtbuilder.model.FormAttachmentDescription
+import swtbuilder.descriptions.CompositeInstanceDescription
+import swtbuilder.SWTBuilder
+import swtbuilder.descriptions.FormAttachmentDescription
 
 abstract class Mockup extends Script {
 
@@ -29,8 +28,8 @@ abstract class Mockup extends Script {
 
     void composite(Map<String, ?> layoutProperties = [:],
                    Map<String, ?> controlProperties = [:],
-                   @DelegatesTo(ControlInstanceDescriptionFactory) Closure closure) {
-        composite = new ControlInstanceDescriptionFactory().composite(layoutProperties, controlProperties, closure)
+                   @DelegatesTo(SWTBuilder) Closure closure) {
+        composite = new SWTBuilder().composite(layoutProperties, controlProperties, closure)
     }
 
 
