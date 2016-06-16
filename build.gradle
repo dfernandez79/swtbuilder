@@ -1,11 +1,7 @@
 group 'swtbuilder'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'groovy'
-apply plugin: 'application'
-
-mainClassName = "swtbuilder.viewer.Application"
-applicationDefaultJvmArgs = ["-XstartOnFirstThread"]
+apply plugin: 'java'
 
 repositories {
     mavenCentral()
@@ -15,11 +11,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
     compile 'org.eclipse.swt:org.eclipse.swt.cocoa.macosx.x86_64:4.5.2'
     testCompile 'junit:junit:4.11'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion '2.13'
 }
