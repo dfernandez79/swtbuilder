@@ -32,12 +32,11 @@ public class CompositeDescription
 
     @Override
     protected void setUpControl(Composite control, Map<String, Control> controlMap) {
-        control.setLayout(layoutDescription.createLayout());
-
         List<Control> controls = children.stream()
                 .map(d -> d.createControl(control, controlMap))
                 .collect(Collectors.toList());
 
+        control.setLayout(layoutDescription.createLayout());
         Iterator<ControlDescription> childrenIterator = children.iterator();
 
         for (Control childControl : controls) {
