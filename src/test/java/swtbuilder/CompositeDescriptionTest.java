@@ -44,19 +44,11 @@ public class CompositeDescriptionTest {
     public void createCompositeWithAControl() {
         Composite composite =
                 new CompositeDescription()
-                        .add(myControl())
+                        .chain(d -> d.add(new LabelDescription("test")))
                         .createControl(shell);
 
         assertEquals(1, composite.getChildren().length);
         assertTrue(composite.getChildren()[0] instanceof Label);
-    }
-
-    private ControlDescription myControl() {
-        return new AbstractControlDescription<AbstractControlDescription, Label>("test", Label::new) {
-            @Override
-            protected void setUpControl(Label control, Map<String, Control> controlMap) {
-            }
-        };
     }
 
     @Test
@@ -87,7 +79,9 @@ public class CompositeDescriptionTest {
     public void applyLayoutToChild() {
         Map<String, Control> refs = new HashMap<>();
 
-        new CompositeDescription().add(myControl().left(5).top(5)).createControl(shell, refs);
+        new CompositeDescription()
+                .chain(d -> d.label("test").left(5).top(5))
+                .createControl(shell, refs);
 
         assertTrue(refs.get("test").getLayoutData() instanceof FormData);
 

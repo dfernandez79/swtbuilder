@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CompositeDescription extends AbstractControlDescription<CompositeDescription, Composite> {
+public class CompositeDescription
+        extends AbstractControlDescription<CompositeDescription, Composite>
+        implements CompositeBuilder {
 
     private final List<ControlDescription> children = new ArrayList<>();
     private LayoutDescription layoutDescription = new FormLayoutDescription();
@@ -22,8 +24,10 @@ public class CompositeDescription extends AbstractControlDescription<CompositeDe
         super(id, Composite::new);
     }
 
-    public CompositeDescription add(ControlDescription description) {
-        return chain(() -> children.add(description));
+    @Override
+    public <T extends ControlDescription> T add(T description) {
+        children.add(description);
+        return description;
     }
 
     @Override
