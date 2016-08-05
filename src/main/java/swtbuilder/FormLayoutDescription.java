@@ -16,15 +16,14 @@ public class FormLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public void layoutControl(ControlDescription<?, ?> description, Control control, Map<String, Control> refs) {
+    public void layoutControl(Control control, LayoutDataDescription layoutDataDescription, Map<String, Control> refs) {
         FormData formData = new FormData();
         control.setLayoutData(formData);
 
-        Map<String, Object> layoutData = description.layoutData();
-        createAttachment(refs, layoutData.get("top"), false).ifPresent(a -> formData.top = a);
-        createAttachment(refs, layoutData.get("left"), false).ifPresent(a -> formData.left = a);
-        createAttachment(refs, layoutData.get("right"), true).ifPresent(a -> formData.right = a);
-        createAttachment(refs, layoutData.get("bottom"), true).ifPresent(a -> formData.bottom = a);
+        createAttachment(refs, layoutDataDescription.layoutData("top"), false).ifPresent(a -> formData.top = a);
+        createAttachment(refs, layoutDataDescription.layoutData("left"), false).ifPresent(a -> formData.left = a);
+        createAttachment(refs, layoutDataDescription.layoutData("right"), true).ifPresent(a -> formData.right = a);
+        createAttachment(refs, layoutDataDescription.layoutData("bottom"), true).ifPresent(a -> formData.bottom = a);
     }
 
     private Optional<FormAttachment> createAttachment(Map<String, Control> refs, Object value, boolean negate) {

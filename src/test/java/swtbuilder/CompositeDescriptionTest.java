@@ -44,19 +44,11 @@ public class CompositeDescriptionTest {
     public void createCompositeWithAControl() {
         Composite composite =
                 new CompositeDescription()
-                        .chain(d -> d.add(new LabelDescription("test")))
+                        .chain(d -> d.add("test", new LabelDescription()))
                         .createControl(shell);
 
         assertEquals(1, composite.getChildren().length);
         assertTrue(composite.getChildren()[0] instanceof Label);
-    }
-
-    @Test
-    public void createCompositeWithId() {
-        Map<String, Control> refs = new HashMap<>();
-        Composite composite = new CompositeDescription("someId").createControl(shell, refs);
-
-        assertEquals(composite, refs.get("someId"));
     }
 
     @Test

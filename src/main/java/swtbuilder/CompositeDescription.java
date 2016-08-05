@@ -13,16 +13,12 @@ public class CompositeDescription
     private LayoutDescription layoutDescription = new FormLayoutDescription();
 
     public CompositeDescription() {
-        this(null);
-    }
-
-    public CompositeDescription(String id) {
-        super(id, Composite::new);
+        super(Composite::new);
     }
 
     @Override
-    public <T extends ControlDescription> T add(T description) {
-        return builder.add(description);
+    public <T extends LayoutAwareControlFactory> T add(T controlFactory) {
+        return builder.add(controlFactory);
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class LabelDescription extends AbstractControlDescription<LabelDescription, Label> {
 
-    public LabelDescription(String id) {
-        super(id, Label::new);
+    public LabelDescription() {
+        super(Label::new);
     }
 
     @Override

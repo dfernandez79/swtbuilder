@@ -10,14 +10,11 @@ import java.util.function.BiFunction;
 
 public abstract class AbstractControlDescription<D extends ControlDescription, C extends Control> implements ControlDescription<D, C> {
 
-    private final String id;
     private int style = SWT.NONE;
     private Map<String, Object> layoutData = new HashMap<>();
     private final BiFunction<Composite, Integer, C> factory;
 
-    public AbstractControlDescription(String id,
-                                      BiFunction<Composite, Integer, C> factory) {
-        this.id = id;
+    public AbstractControlDescription(BiFunction<Composite, Integer, C> factory) {
         this.factory = factory;
     }
 
@@ -30,10 +27,6 @@ public abstract class AbstractControlDescription<D extends ControlDescription, C
     public C createControl(Composite parent, Map<String, Control> refs) {
         C control = factory.apply(parent, style);
 
-        if (id != null && refs != null) {
-            refs.put(id, control);
-        }
-
         setUpControl(control, refs);
 
         return control;
@@ -42,28 +35,13 @@ public abstract class AbstractControlDescription<D extends ControlDescription, C
     protected abstract void setUpControl(C control, Map<String, Control> controlMap);
 
     @Override
-    public Map<String, Object> layoutData() {
-        return layoutData;
+    public void layoutData(String name, Object value) {
+        layoutData.put(name, value);
     }
 
     @Override
-    public D top(Object value) {
-        return chain(() -> layoutData.put("top", value));
-    }
-
-    @Override
-    public D left(Object value) {
-        return chain(() -> layoutData.put("left", value));
-    }
-
-    @Override
-    public D right(Object value) {
-        return chain(() -> layoutData.put("right", value));
-    }
-
-    @Override
-    public D bottom(Object value) {
-        return chain(() -> layoutData.put("bottom", value));
+    public Object layoutData(String name) {
+        return layoutData.get(name);
     }
 
 }

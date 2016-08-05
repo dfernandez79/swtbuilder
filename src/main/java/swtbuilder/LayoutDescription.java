@@ -9,6 +9,6 @@ public interface LayoutDescription {
 
     Layout createLayout();
 
-    void layoutControl(ControlDescription<?, ?> description, Control control, Map<String, Control> refs);
+    void layoutControl(Control control, LayoutDataDescription layoutDataDescription, Map<String, Control> refs);
 
 }
