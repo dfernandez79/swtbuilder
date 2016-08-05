@@ -3,8 +3,6 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import java.util.Map;
-
 public class IdentifiableControlFactory implements LayoutAwareControlFactory<Control> {
 
     private final String id;
@@ -26,11 +24,11 @@ public class IdentifiableControlFactory implements LayoutAwareControlFactory<Con
     }
 
     @Override
-    public Control createControl(Composite parent, Map<String, Control> refs) {
+    public Control createControl(Composite parent, ControlRefs refs) {
         Control newControl = factory.createControl(parent, refs);
 
-        if (id != null && refs != null) {
-            refs.put(id, newControl);
+        if (refs != null) {
+            refs.add(id, newControl);
         }
 
         return newControl;

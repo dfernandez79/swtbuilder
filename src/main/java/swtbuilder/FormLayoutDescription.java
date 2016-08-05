@@ -5,7 +5,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Control;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class FormLayoutDescription implements LayoutDescription {
@@ -16,7 +15,7 @@ public class FormLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public void layoutControl(Control control, LayoutDataDescription layoutDataDescription, Map<String, Control> refs) {
+    public void layoutControl(Control control, LayoutDataDescription layoutDataDescription, ControlRefs refs) {
         FormData formData = new FormData();
         control.setLayoutData(formData);
 
@@ -26,7 +25,7 @@ public class FormLayoutDescription implements LayoutDescription {
         createAttachment(refs, layoutDataDescription.layoutData("bottom"), true).ifPresent(a -> formData.bottom = a);
     }
 
-    private Optional<FormAttachment> createAttachment(Map<String, Control> refs, Object value, boolean negate) {
+    private Optional<FormAttachment> createAttachment(ControlRefs refs, Object value, boolean negate) {
         if (value == null) {
             return Optional.empty();
         }

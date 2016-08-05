@@ -4,15 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -69,7 +65,7 @@ public class CompositeDescriptionTest {
 
     @Test
     public void applyLayoutToChild() {
-        Map<String, Control> refs = new HashMap<>();
+        ControlRefs refs = new ControlRefs();
 
         new CompositeDescription()
                 .chain(d -> d.label("test").left(5).top(5))
@@ -80,6 +76,41 @@ public class CompositeDescriptionTest {
         FormData formData = (FormData) refs.get("test").getLayoutData();
         assertEquals(5, formData.left.offset);
         assertEquals(5, formData.top.offset);
+    }
+
+    @Test
+    public void nestedComposite() {
+        ControlRefs refs = new ControlRefs();
+
+        new CompositeDescription()
+                .chain(d -> {
+                    d.label("test1").text("first");
+                    d.composite(c -> c.label("test2").text("second"));
+                })
+                .createControl(shell, refs);
+
+        assertTrue(refs.get("test1") instanceof Label);
+        assertEquals("first", ((Label) refs.get("test1")).getText());
+        assertTrue(refs.get("test2") instanceof Label);
+        assertEquals("second", ((Label) refs.get("test2")).getText());
+    }
+
+    @Test
+    public void nestedCompositeWithId() {
+        ControlRefs refs = new ControlRefs();
+
+        new CompositeDescription()
+                .chain(d -> {
+                    d.label("test1").text("first");
+                    d.composite("comp", c -> c.label("test2").text("second"));
+                })
+                .createControl(shell, refs);
+
+        assertTrue(refs.get("test1") instanceof Label);
+        assertEquals("first", ((Label) refs.get("test1")).getText());
+        assertTrue(refs.get("test2") instanceof Label);
+        assertEquals("second", ((Label) refs.get("test2")).getText());
+        assertTrue(refs.get("comp") instanceof Composite);
     }
 
 }

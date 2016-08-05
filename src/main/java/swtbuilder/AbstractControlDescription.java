@@ -24,7 +24,7 @@ public abstract class AbstractControlDescription<D extends ControlDescription, C
     }
 
     @Override
-    public C createControl(Composite parent, Map<String, Control> refs) {
+    public C createControl(Composite parent, ControlRefs refs) {
         C control = factory.apply(parent, style);
 
         setUpControl(control, refs);
@@ -32,7 +32,7 @@ public abstract class AbstractControlDescription<D extends ControlDescription, C
         return control;
     }
 
-    protected abstract void setUpControl(C control, Map<String, Control> controlMap);
+    protected abstract void setUpControl(C control, ControlRefs refs);
 
     @Override
     public void layoutData(String name, Object value) {

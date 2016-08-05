@@ -1,16 +1,12 @@
 package swtbuilder;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-
-import java.util.Map;
 
 public class CompositeDescription
         extends AbstractControlDescription<CompositeDescription, Composite>
         implements CompositeBuilder {
 
     private ChildBuilder builder = new ChildBuilder();
-    private LayoutDescription layoutDescription = new FormLayoutDescription();
 
     public CompositeDescription() {
         super(Composite::new);
@@ -22,8 +18,13 @@ public class CompositeDescription
     }
 
     @Override
-    protected void setUpControl(Composite control, Map<String, Control> refs) {
-        builder.createChildren(control, layoutDescription, refs);
+    public void size(int width, int height) {
+        builder.size(width, height);
+    }
+
+    @Override
+    protected void setUpControl(Composite control, ControlRefs refs) {
+        builder.createChildren(control, refs);
     }
 
 }
