@@ -3,17 +3,13 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CompositeDescription
         extends AbstractControlDescription<CompositeDescription, Composite>
         implements CompositeBuilder {
 
-    private final List<ControlDescription> children = new ArrayList<>();
+    private ChildBuilder builder = new ChildBuilder();
     private LayoutDescription layoutDescription = new FormLayoutDescription();
 
     public CompositeDescription() {
@@ -26,22 +22,12 @@ public class CompositeDescription
 
     @Override
     public <T extends ControlDescription> T add(T description) {
-        children.add(description);
-        return description;
+        return builder.add(description);
     }
 
     @Override
-    protected void setUpControl(Composite control, Map<String, Control> controlMap) {
-        List<Control> controls = children.stream()
-                .map(d -> d.createControl(control, controlMap))
-                .collect(Collectors.toList());
-
-        control.setLayout(layoutDescription.createLayout());
-        Iterator<ControlDescription> childrenIterator = children.iterator();
-
-        for (Control childControl : controls) {
-            layoutDescription.layoutControl(childrenIterator.next(), childControl, controlMap);
-        }
+    protected void setUpControl(Composite control, Map<String, Control> refs) {
+        builder.createChildren(control, layoutDescription, refs);
     }
 
 }
