@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public abstract class AbstractControlDescription<D extends ControlDescription, C extends Control> implements ControlDescription<D, C> {
+public abstract class AbstractControlDescription<D extends ControlDescription<D, C>, C extends Control> implements ControlDescription<D, C> {
 
     private int style = SWT.NONE;
-    private Map<String, Object> layoutData = new HashMap<>();
+    private final Map<String, Object> layoutData = new HashMap<>();
     private final BiFunction<Composite, Integer, C> factory;
 
     public AbstractControlDescription(BiFunction<Composite, Integer, C> factory) {

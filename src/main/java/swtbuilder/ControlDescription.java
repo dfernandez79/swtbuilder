@@ -2,7 +2,7 @@ package swtbuilder;
 
 import org.eclipse.swt.widgets.Control;
 
-public interface ControlDescription<D extends ControlDescription, C extends Control>
+public interface ControlDescription<D extends ControlDescription<D, C>, C extends Control>
         extends Chainable<D>, LayoutAwareControlFactory<C> {
 
     D style(int style);

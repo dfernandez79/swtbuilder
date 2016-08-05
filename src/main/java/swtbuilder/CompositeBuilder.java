@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 
 public interface CompositeBuilder {
 
-    <T extends LayoutAwareControlFactory> T add(T controlFactory);
+    <T extends LayoutAwareControlFactory<?>> T add(T controlFactory);
 
-    default <T extends LayoutAwareControlFactory> T add(String id, T controlFactory) {
+    default <T extends LayoutAwareControlFactory<?>> T add(String id, T controlFactory) {
         if (id != null) {
             add(new IdentifiableControlFactory(id, controlFactory));
         } else {

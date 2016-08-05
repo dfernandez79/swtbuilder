@@ -2,7 +2,7 @@ package swtbuilder;
 
 import java.util.function.Consumer;
 
-public interface Chainable<T extends Chainable> {
+public interface Chainable<T extends Chainable<T>> {
 
     @SuppressWarnings("unchecked")
     default T chain(Consumer<T> fn) {

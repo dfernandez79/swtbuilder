@@ -6,14 +6,14 @@ public class CompositeDescription
         extends AbstractControlDescription<CompositeDescription, Composite>
         implements CompositeBuilder {
 
-    private ChildBuilder builder = new ChildBuilder();
+    private final ChildBuilder builder = new ChildBuilder();
 
     public CompositeDescription() {
         super(Composite::new);
     }
 
     @Override
-    public <T extends LayoutAwareControlFactory> T add(T controlFactory) {
+    public <T extends LayoutAwareControlFactory<?>> T add(T controlFactory) {
         return builder.add(controlFactory);
     }
 
