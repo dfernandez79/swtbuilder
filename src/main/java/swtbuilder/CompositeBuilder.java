@@ -1,7 +1,10 @@
 package swtbuilder;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public interface CompositeBuilder {
@@ -49,6 +52,15 @@ public interface CompositeBuilder {
 
     default ComboDescription combo(String id) {
         return add(id, new ComboDescription());
+    }
+
+    default <C extends Control> PluggableControlDescription<C> control(BiFunction<Composite, Integer, C> factory) {
+        return control(null, factory);
+    }
+
+    default <C extends Control> PluggableControlDescription<C> control(String id,
+                                                                       BiFunction<Composite, Integer, C> factory) {
+        return add(id, new PluggableControlDescription<>(factory));
     }
 
 }
