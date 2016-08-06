@@ -1,10 +1,7 @@
 package swtbuilder;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +9,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static swtbuilder.SWTBuilder.composite;
 import static swtbuilder.SWTBuilder.createChildrenOf;
 
 public class SWTBuilderTest {
@@ -116,6 +114,26 @@ public class SWTBuilderTest {
         assertEquals(2, created.getItemCount());
         assertEquals(created.getItem(0), "Option 1");
         assertEquals(created.getItem(1), "Option 2");
+    }
+
+    @Test
+    public void createComposite() {
+        Composite result = composite(shell, c -> c.label().text("Hello"));
+
+        assertNotNull(result);
+        assertEquals(1, result.getChildren().length);
+        assertTrue(result.getChildren()[0] instanceof Label);
+        assertEquals("Hello", ((Label) result.getChildren()[0]).getText());
+    }
+
+    @Test
+    public void genericControlUsage() {
+        Composite result = composite(shell, c -> c.control(Label::new).setUp(label -> label.setText("Testing")));
+
+        assertNotNull(result);
+        assertEquals(1, result.getChildren().length);
+        assertTrue(result.getChildren()[0] instanceof Label);
+        assertEquals("Testing", ((Label) result.getChildren()[0]).getText());
     }
 
 }
