@@ -46,8 +46,16 @@ public interface CompositeBuilder {
         return add(id, new ButtonDescription());
     }
 
+    default ComboDescription dropdown() {
+        return dropdown(null);
+    }
+
     default ComboDescription dropdown(String id) {
         return combo(id).style(SWT.READ_ONLY).select(0);
+    }
+
+    default ComboDescription combo() {
+        return combo(null);
     }
 
     default ComboDescription combo(String id) {

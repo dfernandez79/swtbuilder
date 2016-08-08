@@ -2,10 +2,14 @@ package swtbuilder;
 
 import org.eclipse.swt.widgets.Control;
 
+import java.util.function.Consumer;
+
 public interface ControlDescription<D extends ControlDescription<D, C>, C extends Control>
         extends Chainable<D>, LayoutAwareControlFactory<C> {
 
     D style(int style);
+
+    D setUp(Consumer<C> fn);
 
     default D top(Object value) {
         return chain(() -> layoutData("top", value));
