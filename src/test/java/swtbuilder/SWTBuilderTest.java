@@ -9,6 +9,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static swtbuilder.SWTBuilder.composite;
 import static swtbuilder.SWTBuilder.createChildrenOf;
 
@@ -134,6 +135,31 @@ public class SWTBuilderTest {
         assertEquals(1, result.getChildren().length);
         assertTrue(result.getChildren()[0] instanceof Label);
         assertEquals("Testing", ((Label) result.getChildren()[0]).getText());
+    }
+
+    @Test
+    public void createCheckbox() {
+        Button created = (Button) createChildrenOf(shell,
+                c -> c.checkbox("test").text("A checkbox").selected()).get("test");
+
+        assertTrue((created.getStyle() & SWT.CHECK) == SWT.CHECK);
+        assertTrue(created.getSelection());
+    }
+
+    @Test
+    public void createUnselectedCheckbox() {
+        Button created = (Button) createChildrenOf(shell,
+                c -> c.checkbox("test").text("A checkbox").selected(false)).get("test");
+
+        assertTrue((created.getStyle() & SWT.CHECK) == SWT.CHECK);
+        assertFalse(created.getSelection());
+    }
+
+    @Test
+    public void createLink() {
+        Link created = (Link) createChildrenOf(shell, c -> c.link("test").text("This is a <a>link</a>")).get("test");
+
+        assertEquals("This is a <a>link</a>", created.getText());
     }
 
 }

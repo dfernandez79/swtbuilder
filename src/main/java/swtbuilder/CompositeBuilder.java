@@ -63,4 +63,20 @@ public interface CompositeBuilder {
         return add(id, new PluggableControlDescription<>(factory));
     }
 
+    default ButtonDescription checkbox() {
+        return checkbox(null);
+    }
+
+    default ButtonDescription checkbox(String id) {
+        return button(id).style(SWT.CHECK);
+    }
+
+    default LinkDescription link() {
+        return link(null);
+    }
+
+    default LinkDescription link(String id) {
+        return add(id, new LinkDescription());
+    }
+
 }

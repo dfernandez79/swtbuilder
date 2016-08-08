@@ -1,5 +1,6 @@
 package swtbuilder;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -15,6 +16,7 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
 
     private String text;
     private final List<Function<ControlRefs, SelectionListener>> selectionListenerFactories = new ArrayList<>();
+    private boolean selected;
 
     public ButtonDescription() {
         super(Button::new);
@@ -25,6 +27,11 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
         if (text != null) {
             control.setText(text);
         }
+
+        if ((control.getStyle() & SWT.CHECK) == SWT.CHECK) {
+            control.setSelection(selected);
+        }
+
         selectionListenerFactories.forEach(factory -> control.addSelectionListener(factory.apply(refs)));
     }
 
@@ -50,6 +57,16 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
                 handler.accept(controls);
             }
         });
+        return this;
+    }
+
+
+    public ButtonDescription selected() {
+        return selected(true);
+    }
+
+    public ButtonDescription selected(boolean value) {
+        selected = value;
         return this;
     }
 
