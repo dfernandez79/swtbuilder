@@ -16,8 +16,8 @@ public class SWTBuilder {
         return refs;
     }
 
-    public static Composite composite(Composite parent, Consumer<CompositeBuilder> fn) {
-        return new CompositeDescription().chain(fn::accept).createControl(parent);
+    public static Composite composite(Composite parent, Consumer<CompositeDescription> fn) {
+        return new CompositeDescription().chain(fn).createControl(parent);
     }
 
 }

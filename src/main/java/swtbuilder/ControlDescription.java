@@ -11,6 +11,8 @@ public interface ControlDescription<D extends ControlDescription<D, C>, C extend
 
     D setUp(Consumer<C> fn);
 
+    D size(int width, int height);
+
     default D top(Object value) {
         return chain(() -> layoutData("top", value));
     }

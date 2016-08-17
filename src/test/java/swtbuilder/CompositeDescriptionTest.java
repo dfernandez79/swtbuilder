@@ -13,6 +13,8 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static swtbuilder.FormLayoutDescription.fromBottomOf;
+import static swtbuilder.FormLayoutDescription.fromRightOf;
 
 public class CompositeDescriptionTest {
 
@@ -111,6 +113,63 @@ public class CompositeDescriptionTest {
         assertTrue(refs.get("test2") instanceof Label);
         assertEquals("second", ((Label) refs.get("test2")).getText());
         assertTrue(refs.get("comp") instanceof Composite);
+    }
+
+    @Test
+    public void setBlockIsExecutedAfterChildrenCreation() {
+        Label[] capturedRef = new Label[1];
+
+        new CompositeDescription()
+                .chain(d -> {
+                    d.setUp((comp, refs) -> capturedRef[0] = refs.label("label"));
+                    d.label("label").text("Hello");
+                })
+                .createControl(shell);
+
+        assertEquals(capturedRef[0].getText(), "Hello");
+    }
+
+    @Test
+    public void sizeAlsoSetsTheWidthHeightLayoutData() {
+        CompositeDescription compositeDescription = new CompositeDescription().size(300, 200);
+        assertEquals(compositeDescription.layoutData("width"), 300);
+        assertEquals(compositeDescription.layoutData("height"), 200);
+    }
+
+    @Test
+    public void leftFromRightOfOtherControl() {
+        ControlRefs refs = new ControlRefs();
+        new CompositeDescription()
+                .chain(d -> {
+                    d.label("test").left(0).top(0).size(100, 20).text("Test");
+                    d.label("other").left(fromRightOf("test", 0));
+                })
+                .createControl(shell, refs);
+
+        Label label = refs.label("other");
+        FormData data = (FormData) label.getLayoutData();
+        assertTrue(data.left != null);
+        assertEquals(data.left.control, refs.label("test"));
+        assertEquals(data.left.offset, 0);
+        assertEquals(data.left.alignment, SWT.RIGHT);
+    }
+
+    @Test
+    public void topFromBottomOfOtherControl() {
+        ControlRefs refs = new ControlRefs();
+        new CompositeDescription()
+                .chain(d -> {
+                    d.label("test").left(0).top(0).size(100, 20).text("Test");
+                    d.label("other").top(fromBottomOf("test", 0));
+                })
+                .createControl(shell, refs);
+
+        Label label = refs.label("other");
+        FormData data = (FormData) label.getLayoutData();
+        assertTrue(data.top != null);
+        assertEquals(data.top.control, refs.label("test"));
+        assertEquals(data.top.offset, 0);
+        assertEquals(data.top.alignment, SWT.BOTTOM);
     }
 
 }

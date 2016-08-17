@@ -3,19 +3,15 @@ package swtbuilder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class ButtonDescription extends AbstractControlDescription<ButtonDescription, Button> {
 
     private String text;
-    private final List<Function<ControlRefs, SelectionListener>> selectionListenerFactories = new ArrayList<>();
+    private final List<EventListenerLambda<SelectionEvent, Button>> selectionListeners = new ArrayList<>();
     private boolean selected;
 
     public ButtonDescription() {
@@ -32,7 +28,12 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
             control.setSelection(selected);
         }
 
-        selectionListenerFactories.forEach(factory -> control.addSelectionListener(factory.apply(refs)));
+        selectionListeners.forEach(listener -> control.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                listener.handleEvent(e, control, refs);
+            }
+        }));
     }
 
     public ButtonDescription text(String text) {
@@ -40,26 +41,25 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
         return this;
     }
 
-    public ButtonDescription onSelection(BiConsumer<ControlRefs, SelectionEvent> handler) {
-        selectionListenerFactories.add(controls -> new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                handler.accept(controls, e);
-            }
-        });
+    public ButtonDescription onSelection(EventListenerLambda<SelectionEvent, Button> handler) {
+        selectionListeners.add(handler);
         return this;
     }
 
-    public ButtonDescription onSelection(Consumer<ControlRefs> handler) {
-        selectionListenerFactories.add(controls -> new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                handler.accept(controls);
-            }
-        });
+    public ButtonDescription onSelection(BiConsumerEventListenerLambda<SelectionEvent, Button> handler) {
+        selectionListeners.add(handler);
         return this;
     }
 
+    public ButtonDescription onSelection(ConsumerEventListenerLambda<SelectionEvent, Button> handler) {
+        selectionListeners.add(handler);
+        return this;
+    }
+
+    public ButtonDescription onSelection(NoArgsEventListenerLambda<SelectionEvent, Button> handler) {
+        selectionListeners.add(handler);
+        return this;
+    }
 
     public ButtonDescription selected() {
         return selected(true);

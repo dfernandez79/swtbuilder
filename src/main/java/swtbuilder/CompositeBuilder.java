@@ -36,8 +36,6 @@ public interface CompositeBuilder {
         return add(id, new CompositeDescription().chain(fn::accept));
     }
 
-    void size(int width, int height);
-
     default ButtonDescription button() {
         return button(null);
     }
@@ -85,6 +83,30 @@ public interface CompositeBuilder {
 
     default LinkDescription link(String id) {
         return add(id, new LinkDescription());
+    }
+
+    default TextDescription textInput() {
+        return textInput(null);
+    }
+
+    default TextDescription textInput(String id) {
+        return add(id, new TextDescription());
+    }
+
+    default BrowserDescription browser() {
+        return browser(null);
+    }
+
+    default BrowserDescription browser(String id) {
+        return add(id, new BrowserDescription());
+    }
+
+    default TableDescription table() {
+        return table(null);
+    }
+
+    default TableDescription table(String id) {
+        return add(id, new TableDescription());
     }
 
 }

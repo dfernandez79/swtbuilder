@@ -55,14 +55,6 @@ public class SWTBuilderTest {
     }
 
     @Test
-    public void containerSize() {
-        createChildrenOf(shell, c -> c.size(300, 200));
-
-        assertEquals(shell.getSize().x, 300);
-        assertEquals(shell.getSize().y, 200);
-    }
-
-    @Test
     public void createButton() {
         createChildrenOf(shell, c -> c.button().text("A Button"));
 
@@ -72,7 +64,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createButtonWithSelectionListener() {
-        ControlRefs result = createChildrenOf(shell, c -> c.button("btn").onSelection((refs, evt) -> {
+        ControlRefs result = createChildrenOf(shell, c -> c.button("btn").onSelection(() -> {
         }));
 
         assertEquals(1, result.get("btn").getListeners(SWT.Selection).length);
@@ -80,26 +72,25 @@ public class SWTBuilderTest {
     }
 
     @Test
+    public void eventListenerReferencingItself() {
+        final String[] capturedText = new String[1];
+
+        ControlRefs result = createChildrenOf(shell,
+                c -> c.button("btn").text("Button").onSelection((evt, btn) -> capturedText[0] = btn.getText()));
+
+        result.get("btn").notifyListeners(SWT.Selection, null);
+
+        assertEquals(capturedText[0], "Button");
+    }
+
+
+    @Test
     public void eventListenerReferencingAnotherControl() {
         final String[] capturedText = new String[1];
 
         ControlRefs result = createChildrenOf(shell, c -> {
             c.label("label").text("Hello!");
-            c.button("btn").onSelection((refs, evt) -> capturedText[0] = refs.label("label").getText());
-        });
-
-        result.get("btn").notifyListeners(SWT.Selection, null);
-
-        assertEquals(capturedText[0], "Hello!");
-    }
-
-    @Test
-    public void eventListenerReferencingAnotherControlWithoutEventParam() {
-        final String[] capturedText = new String[1];
-
-        ControlRefs result = createChildrenOf(shell, c -> {
-            c.label("label").text("Hello!");
-            c.button("btn").onSelection(refs -> capturedText[0] = refs.label("label").getText());
+            c.button("btn").onSelection((evt, btn, refs) -> capturedText[0] = refs.label("label").getText());
         });
 
         result.get("btn").notifyListeners(SWT.Selection, null);

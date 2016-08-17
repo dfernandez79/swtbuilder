@@ -1,5 +1,6 @@
 package swtbuilder;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -8,6 +9,15 @@ import org.eclipse.swt.widgets.Control;
 import java.util.Optional;
 
 public class FormLayoutDescription implements LayoutDescription {
+
+    public static ControlAttachment fromRightOf(String id, int offset) {
+        return new ControlAttachment(id, offset, SWT.RIGHT);
+    }
+
+    public static ControlAttachment fromBottomOf(String id, int offset) {
+        return new ControlAttachment(id, offset, SWT.BOTTOM);
+    }
+
 
     @Override
     public FormLayout createLayout() {
@@ -19,6 +29,9 @@ public class FormLayoutDescription implements LayoutDescription {
         FormData formData = new FormData();
         control.setLayoutData(formData);
 
+        intValueFrom(layoutDataDescription.layoutData("width")).ifPresent(n -> formData.width = n);
+        intValueFrom(layoutDataDescription.layoutData("height")).ifPresent(n -> formData.height = n);
+
         createAttachment(refs, layoutDataDescription.layoutData("top"), false).ifPresent(a -> formData.top = a);
         createAttachment(refs, layoutDataDescription.layoutData("left"), false).ifPresent(a -> formData.left = a);
         createAttachment(refs, layoutDataDescription.layoutData("right"), true).ifPresent(a -> formData.right = a);
@@ -26,16 +39,42 @@ public class FormLayoutDescription implements LayoutDescription {
     }
 
     private Optional<FormAttachment> createAttachment(ControlRefs refs, Object value, boolean negate) {
-        if (value == null) {
-            return Optional.empty();
+        int sign = negate ? -1 : 1;
+        Optional<FormAttachment> result =
+                intValueFrom(value).map(num -> new FormAttachment(negate ? 100 : 0, sign * num));
+
+        if (!result.isPresent()) {
+            result = controlAttachmentFrom(refs, value);
         }
 
-        if (value instanceof Number) {
-            int sign = negate ? -1 : 1;
-            return Optional.of(new FormAttachment(negate ? 100 : 0, sign * ((Number) value).intValue()));
+        return result;
+    }
+
+    private Optional<FormAttachment> controlAttachmentFrom(ControlRefs refs, Object value) {
+        return (value != null && value instanceof ControlAttachment)
+                ? Optional.of(((ControlAttachment) value).createFormAttachment(refs))
+                : Optional.empty();
+    }
+
+    private Optional<Integer> intValueFrom(Object obj) {
+        return (obj != null && obj instanceof Number) ?
+                Optional.of(((Number) obj).intValue()) : Optional.empty();
+    }
+
+    public static class ControlAttachment {
+        private final String id;
+        private final int offset;
+        private final int alignment;
+
+        public ControlAttachment(String id, int offset, int alignment) {
+            this.id = id;
+            this.offset = offset;
+            this.alignment = alignment;
         }
 
-        return Optional.empty();
+        public FormAttachment createFormAttachment(ControlRefs refs) {
+            return new FormAttachment(refs.get(id), offset, alignment);
+        }
     }
 
 }

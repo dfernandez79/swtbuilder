@@ -2,6 +2,8 @@ package swtbuilder;
 
 import org.eclipse.swt.widgets.Composite;
 
+import java.util.function.BiConsumer;
+
 public class CompositeDescription
         extends AbstractControlDescription<CompositeDescription, Composite>
         implements CompositeBuilder {
@@ -18,13 +20,13 @@ public class CompositeDescription
     }
 
     @Override
-    public void size(int width, int height) {
-        builder.size(width, height);
-    }
-
-    @Override
     protected void setUpControl(Composite control, ControlRefs refs) {
         builder.createChildren(control, refs);
+    }
+
+    public CompositeDescription setUp(BiConsumer<Composite, ControlRefs> fn) {
+        addSetUpBlock(fn);
+        return this;
     }
 
 }

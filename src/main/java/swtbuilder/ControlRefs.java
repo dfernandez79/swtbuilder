@@ -1,8 +1,6 @@
 package swtbuilder;
 
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +30,16 @@ public class ControlRefs {
         return (Label) get(name);
     }
 
+    public Button button(String name) {
+        return (Button) get(name);
+    }
+
     public Combo combo(String name) {
         return (Combo) get(name);
+    }
+
+    public Text textInput(String name) {
+        return (Text) get(name);
     }
 
 }
