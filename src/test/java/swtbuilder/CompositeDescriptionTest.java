@@ -42,7 +42,7 @@ public class CompositeDescriptionTest {
     public void createCompositeWithAControl() {
         Composite composite =
                 new CompositeDescription()
-                        .chain(d -> d.add("test", new LabelDescription()))
+                        .children(d -> d.add("test", new LabelDescription()))
                         .createControl(shell);
 
         assertEquals(1, composite.getChildren().length);
@@ -70,7 +70,7 @@ public class CompositeDescriptionTest {
         ControlRefs refs = new ControlRefs();
 
         new CompositeDescription()
-                .chain(d -> d.label("test").left(5).top(5))
+                .children(d -> d.label("test").left(5).top(5))
                 .createControl(shell, refs);
 
         assertTrue(refs.get("test").getLayoutData() instanceof FormData);
@@ -85,9 +85,9 @@ public class CompositeDescriptionTest {
         ControlRefs refs = new ControlRefs();
 
         new CompositeDescription()
-                .chain(d -> {
+                .children(d -> {
                     d.label("test1").text("first");
-                    d.composite(c -> c.label("test2").text("second"));
+                    d.composite().children(c -> c.label("test2").text("second"));
                 })
                 .createControl(shell, refs);
 
@@ -102,9 +102,9 @@ public class CompositeDescriptionTest {
         ControlRefs refs = new ControlRefs();
 
         new CompositeDescription()
-                .chain(d -> {
+                .children(d -> {
                     d.label("test1").text("first");
-                    d.composite("comp", c -> c.label("test2").text("second"));
+                    d.composite("comp").children(c -> c.label("test2").text("second"));
                 })
                 .createControl(shell, refs);
 
@@ -120,10 +120,8 @@ public class CompositeDescriptionTest {
         Label[] capturedRef = new Label[1];
 
         new CompositeDescription()
-                .chain(d -> {
-                    d.setUp((comp, refs) -> capturedRef[0] = refs.label("label"));
-                    d.label("label").text("Hello");
-                })
+                .children(d -> d.label("label").text("Hello"))
+                .setUp((comp, refs) -> capturedRef[0] = refs.label("label"))
                 .createControl(shell);
 
         assertEquals(capturedRef[0].getText(), "Hello");
@@ -140,7 +138,7 @@ public class CompositeDescriptionTest {
     public void leftFromRightOfOtherControl() {
         ControlRefs refs = new ControlRefs();
         new CompositeDescription()
-                .chain(d -> {
+                .children(d -> {
                     d.label("test").left(0).top(0).size(100, 20).text("Test");
                     d.label("other").left(fromRightOf("test", 0));
                 })
@@ -158,7 +156,7 @@ public class CompositeDescriptionTest {
     public void topFromBottomOfOtherControl() {
         ControlRefs refs = new ControlRefs();
         new CompositeDescription()
-                .chain(d -> {
+                .children(d -> {
                     d.label("test").left(0).top(0).size(100, 20).text("Test");
                     d.label("other").top(fromBottomOf("test", 0));
                 })

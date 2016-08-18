@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 public interface CompositeBuilder {
 
@@ -28,12 +27,12 @@ public interface CompositeBuilder {
         return add(id, new LabelDescription());
     }
 
-    default CompositeDescription composite(Consumer<CompositeBuilder> fn) {
-        return composite(null, fn);
+    default CompositeDescription composite() {
+        return composite(null);
     }
 
-    default CompositeDescription composite(String id, Consumer<CompositeBuilder> fn) {
-        return add(id, new CompositeDescription().chain(fn::accept));
+    default CompositeDescription composite(String id) {
+        return add(id, new CompositeDescription());
     }
 
     default ButtonDescription button() {

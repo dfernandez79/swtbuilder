@@ -3,6 +3,7 @@ package swtbuilder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
     private final BiFunction<Composite, Integer, C> factory;
     private Integer width = null;
     private Integer height = null;
+    private Integer backgroundColor = null;
 
     public AbstractControlDescription(BiFunction<Composite, Integer, C> factory) {
         this.factory = factory;
@@ -38,20 +40,14 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
             control.setSize(width, height);
         }
 
+        if (backgroundColor != null) {
+            control.setBackground(Display.getCurrent().getSystemColor(backgroundColor));
+        }
+
         setUpControl(control, refs);
         applySetUpBlock(control, refs);
 
         return control;
-    }
-
-    @Override
-    public D size(int width, int height) {
-        return chain(() -> {
-            this.width = width;
-            this.height = height;
-            layoutData("width", width);
-            layoutData("height", height);
-        });
     }
 
     protected void applySetUpBlock(C control, ControlRefs refs) {
@@ -70,8 +66,29 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
     protected abstract void setUpControl(C control, ControlRefs refs);
 
     @Override
-    public void layoutData(String name, Object value) {
-        layoutData.put(name, value);
+    public D background(int systemColor) {
+        return chain(() -> backgroundColor = systemColor);
+    }
+
+    @Override
+    public D width(int width) {
+        return chain(() -> {
+            this.width = width;
+            layoutData("width", width);
+        });
+    }
+
+    @Override
+    public D height(int height) {
+        return chain(() -> {
+            this.height = height;
+            layoutData("height", height);
+        });
+    }
+
+    @Override
+    public D layoutData(String name, Object value) {
+        return chain(() -> layoutData.put(name, value));
     }
 
     @Override

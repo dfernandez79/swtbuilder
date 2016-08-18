@@ -14,11 +14,6 @@ public class IdentifiableControlFactory implements LayoutAwareControlFactory<Con
     }
 
     @Override
-    public void layoutData(String name, Object value) {
-        factory.layoutData(name, value);
-    }
-
-    @Override
     public Object layoutData(String name) {
         return factory.layoutData(name);
     }

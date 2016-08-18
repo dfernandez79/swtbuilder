@@ -18,6 +18,17 @@ public class FormLayoutDescription implements LayoutDescription {
         return new ControlAttachment(id, offset, SWT.BOTTOM);
     }
 
+    public static ControlAttachment fromLeftOf(String id, int offset) {
+        return new ControlAttachment(id, -offset, SWT.LEFT);
+    }
+
+    public static ControlAttachment fromTopOf(String id, int offset) {
+        return new ControlAttachment(id, -offset, SWT.TOP);
+    }
+
+    public static ControlAttachment fromMiddleOf(String id, int offset) {
+        return new ControlAttachment(id, offset, SWT.CENTER);
+    }
 
     @Override
     public FormLayout createLayout() {
