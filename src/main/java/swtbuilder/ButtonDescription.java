@@ -24,7 +24,7 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
             control.setText(text);
         }
 
-        if ((control.getStyle() & SWT.CHECK) == SWT.CHECK) {
+        if ((control.getStyle() & SWT.CHECK) == SWT.CHECK || (control.getStyle() & SWT.RADIO) == SWT.RADIO) {
             control.setSelection(selected);
         }
 

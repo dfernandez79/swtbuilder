@@ -19,23 +19,6 @@ public interface ControlDescription<D extends ControlDescription<D, C>, C extend
 
     D background(int systemColor);
 
-    default D position(Object left, Object top) {
-        return position(left, top, null, null);
-    }
-
-    default D position(Object left, Object top, Object right) {
-        return position(left, top, right, null);
-    }
-
-    default D position(Object left, Object top, Object right, Object bottom) {
-        return chain(() -> {
-            if (left != null) left(left);
-            if (top != null) top(top);
-            if (right != null) right(right);
-            if (bottom != null) bottom(bottom);
-        });
-    }
-
     default D size(int width, int height) {
         return width(width).height(height);
     }

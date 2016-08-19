@@ -18,7 +18,7 @@ public class ChildBuilder implements CompositeBuilder {
         return controlFactory;
     }
 
-    public void createChildren(Composite parent, LayoutDescription layoutDescription, ControlRefs refs) {
+    public void createAndLayoutChildren(Composite parent, LayoutDescription layoutDescription, ControlRefs refs) {
         List<Control> controls = children.stream().map(d -> d.createControl(parent, refs)).collect(Collectors.toList());
 
         parent.setLayout(layoutDescription.createLayout());

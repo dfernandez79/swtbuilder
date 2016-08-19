@@ -108,4 +108,28 @@ public interface CompositeBuilder {
         return add(id, new TableDescription());
     }
 
+    default GroupDescription group() {
+        return group(null);
+    }
+
+    default GroupDescription group(String id) {
+        return add(id, new GroupDescription());
+    }
+
+    default ButtonDescription radio() {
+        return radio(null);
+    }
+
+    default ButtonDescription radio(String id) {
+        return add(id, new ButtonDescription().style(SWT.RADIO));
+    }
+
+    default LabelDescription horizontalSeparator() {
+        return horizontalSeparator(null);
+    }
+
+    default LabelDescription horizontalSeparator(String id) {
+        return add(id, new LabelDescription().style(SWT.SEPARATOR | SWT.HORIZONTAL));
+    }
+
 }

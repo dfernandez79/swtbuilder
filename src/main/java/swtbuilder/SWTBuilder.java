@@ -12,7 +12,7 @@ public class SWTBuilder {
 
         ChildBuilder builder = new ChildBuilder();
         fn.accept(builder);
-        builder.createChildren(parent, new FormLayoutDescription(), refs);
+        builder.createAndLayoutChildren(parent, new FormLayoutDescription(), refs);
 
         return refs;
     }
