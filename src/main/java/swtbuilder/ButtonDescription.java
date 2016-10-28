@@ -1,15 +1,14 @@
 package swtbuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ButtonDescription extends AbstractControlDescription<ButtonDescription, Button> {
-
     private String text;
     private final List<EventListenerLambda<SelectionEvent, Button>> selectionListeners = new ArrayList<>();
     private boolean selected;
@@ -69,5 +68,4 @@ public class ButtonDescription extends AbstractControlDescription<ButtonDescript
         selected = value;
         return this;
     }
-
 }

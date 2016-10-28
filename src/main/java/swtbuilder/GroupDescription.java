@@ -3,7 +3,6 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Group;
 
 public class GroupDescription extends AbstractCompositeDescription<GroupDescription, Group> {
-
     private String text;
 
     public GroupDescription() {
@@ -23,5 +22,4 @@ public class GroupDescription extends AbstractCompositeDescription<GroupDescript
         this.text = text;
         return this;
     }
-
 }

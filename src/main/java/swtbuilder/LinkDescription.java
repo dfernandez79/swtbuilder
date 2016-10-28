@@ -3,7 +3,6 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Link;
 
 public class LinkDescription extends AbstractControlDescription<LinkDescription, Link> {
-
     private String text;
 
     public LinkDescription() {
@@ -21,5 +20,4 @@ public class LinkDescription extends AbstractControlDescription<LinkDescription,
         this.text = text;
         return this;
     }
-
 }

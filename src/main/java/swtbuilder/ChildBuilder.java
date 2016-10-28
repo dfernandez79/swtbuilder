@@ -1,15 +1,14 @@
 package swtbuilder;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ChildBuilder implements CompositeBuilder {
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
+public class ChildBuilder implements CompositeBuilder {
     private final List<LayoutAwareControlFactory<?>> children = new ArrayList<>();
 
     @Override
@@ -28,5 +27,4 @@ public class ChildBuilder implements CompositeBuilder {
             layoutDescription.layoutControl(childControl, childrenIterator.next(), refs);
         }
     }
-
 }

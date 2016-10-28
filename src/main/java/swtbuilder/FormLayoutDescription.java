@@ -1,15 +1,14 @@
 package swtbuilder;
 
+import java.util.Optional;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Control;
 
-import java.util.Optional;
-
 public class FormLayoutDescription implements LayoutDescription {
-
     public static ControlAttachment fromRightOf(String id, int offset) {
         return new ControlAttachment(id, offset, SWT.RIGHT);
     }
@@ -43,10 +42,14 @@ public class FormLayoutDescription implements LayoutDescription {
         intValueFrom(layoutDataDescription.layoutData("width")).ifPresent(n -> formData.width = n);
         intValueFrom(layoutDataDescription.layoutData("height")).ifPresent(n -> formData.height = n);
 
-        createAttachment(refs, layoutDataDescription.layoutData("top"), false).ifPresent(a -> formData.top = a);
-        createAttachment(refs, layoutDataDescription.layoutData("left"), false).ifPresent(a -> formData.left = a);
-        createAttachment(refs, layoutDataDescription.layoutData("right"), true).ifPresent(a -> formData.right = a);
-        createAttachment(refs, layoutDataDescription.layoutData("bottom"), true).ifPresent(a -> formData.bottom = a);
+        createAttachment(refs, layoutDataDescription.layoutData("top"), false)
+                .ifPresent(a -> formData.top = a);
+        createAttachment(refs, layoutDataDescription.layoutData("left"), false)
+                .ifPresent(a -> formData.left = a);
+        createAttachment(refs, layoutDataDescription.layoutData("right"), true)
+                .ifPresent(a -> formData.right = a);
+        createAttachment(refs, layoutDataDescription.layoutData("bottom"), true)
+                .ifPresent(a -> formData.bottom = a);
     }
 
     private Optional<FormAttachment> createAttachment(ControlRefs refs, Object value, boolean negate) {
@@ -68,8 +71,9 @@ public class FormLayoutDescription implements LayoutDescription {
     }
 
     private Optional<Integer> intValueFrom(Object obj) {
-        return (obj != null && obj instanceof Number) ?
-                Optional.of(((Number) obj).intValue()) : Optional.empty();
+        return (obj != null && obj instanceof Number)
+                ? Optional.of(((Number) obj).intValue())
+                : Optional.empty();
     }
 
     public static class ControlAttachment {
@@ -87,5 +91,4 @@ public class FormLayoutDescription implements LayoutDescription {
             return new FormAttachment(refs.get(id), offset, alignment);
         }
     }
-
 }

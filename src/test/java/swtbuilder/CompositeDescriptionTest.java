@@ -1,6 +1,13 @@
 package swtbuilder;
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static swtbuilder.FormLayoutDescription.fromBottomOf;
+import static swtbuilder.FormLayoutDescription.fromRightOf;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -10,14 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static swtbuilder.FormLayoutDescription.fromBottomOf;
-import static swtbuilder.FormLayoutDescription.fromRightOf;
-
 public class CompositeDescriptionTest {
-
     private Shell shell;
 
     @Before
@@ -40,10 +40,9 @@ public class CompositeDescriptionTest {
 
     @Test
     public void createCompositeWithAControl() {
-        Composite composite =
-                new CompositeDescription()
-                        .children(d -> d.add("test", new LabelDescription()))
-                        .createControl(shell);
+        Composite composite = new CompositeDescription()
+                .children(d -> d.add("test", new LabelDescription()))
+                .createControl(shell);
 
         assertEquals(1, composite.getChildren().length);
         assertTrue(composite.getChildren()[0] instanceof Label);
@@ -116,7 +115,7 @@ public class CompositeDescriptionTest {
     }
 
     @Test
-    public void setBlockIsExecutedAfterChildrenCreation() {
+    public void setUpBlockIsExecutedAfterChildrenCreation() {
         Label[] capturedRef = new Label[1];
 
         new CompositeDescription()
@@ -130,6 +129,7 @@ public class CompositeDescriptionTest {
     @Test
     public void sizeAlsoSetsTheWidthHeightLayoutData() {
         CompositeDescription compositeDescription = new CompositeDescription().size(300, 200);
+
         assertEquals(compositeDescription.layoutData("width"), 300);
         assertEquals(compositeDescription.layoutData("height"), 200);
     }
@@ -137,6 +137,7 @@ public class CompositeDescriptionTest {
     @Test
     public void leftFromRightOfOtherControl() {
         ControlRefs refs = new ControlRefs();
+
         new CompositeDescription()
                 .children(d -> {
                     d.label("test").left(0).top(0).size(100, 20).text("Test");
@@ -146,6 +147,7 @@ public class CompositeDescriptionTest {
 
         Label label = refs.label("other");
         FormData data = (FormData) label.getLayoutData();
+
         assertTrue(data.left != null);
         assertEquals(data.left.control, refs.label("test"));
         assertEquals(data.left.offset, 0);
@@ -155,6 +157,7 @@ public class CompositeDescriptionTest {
     @Test
     public void topFromBottomOfOtherControl() {
         ControlRefs refs = new ControlRefs();
+
         new CompositeDescription()
                 .children(d -> {
                     d.label("test").left(0).top(0).size(100, 20).text("Test");
@@ -164,10 +167,31 @@ public class CompositeDescriptionTest {
 
         Label label = refs.label("other");
         FormData data = (FormData) label.getLayoutData();
+
         assertTrue(data.top != null);
         assertEquals(data.top.control, refs.label("test"));
         assertEquals(data.top.offset, 0);
         assertEquals(data.top.alignment, SWT.BOTTOM);
     }
 
+    @Test
+    public void useFillLayout() {
+        Composite result = new CompositeDescription()
+                .fillLayout()
+                .createControl(shell);
+
+        assertTrue(result.getLayout() instanceof FillLayout);
+    }
+
+    @Test
+    public void backgroundUsingSystemColor() {
+        Composite result = new CompositeDescription()
+                .background(SWT.COLOR_RED)
+                .createControl(shell);
+
+        assertEquals(255, result.getBackground().getRed());
+        assertEquals(0, result.getBackground().getGreen());
+        assertEquals(0, result.getBackground().getBlue());
+        assertEquals(255, result.getBackground().getAlpha());
+    }
 }

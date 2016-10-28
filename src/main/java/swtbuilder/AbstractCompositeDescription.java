@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public abstract class AbstractCompositeDescription<D extends ControlDescription<D, C>, C extends Composite>
-        extends AbstractControlDescription<D, C> {
+    extends AbstractControlDescription<D, C> {
 
     private final ChildBuilder builder = new ChildBuilder();
     private LayoutDescription layoutDescription = new FormLayoutDescription();
@@ -29,4 +29,7 @@ public abstract class AbstractCompositeDescription<D extends ControlDescription<
         return chain(() -> fn.accept(builder));
     }
 
+    public D fillLayout() {
+        return chain(() -> layoutDescription = new FillLayoutDescription());
+    }
 }

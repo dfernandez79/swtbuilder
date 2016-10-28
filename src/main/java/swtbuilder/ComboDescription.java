@@ -3,7 +3,6 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Combo;
 
 public class ComboDescription extends AbstractControlDescription<ComboDescription, Combo> {
-
     private int initialSelection = -1;
     private String[] items = {};
 
@@ -26,5 +25,4 @@ public class ComboDescription extends AbstractControlDescription<ComboDescriptio
         this.items = items;
         return this;
     }
-
 }

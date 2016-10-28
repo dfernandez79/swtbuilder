@@ -1,13 +1,12 @@
 package swtbuilder;
 
+import java.util.function.BiFunction;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import java.util.function.BiFunction;
-
 public interface CompositeBuilder {
-
     <T extends LayoutAwareControlFactory<?>> T add(T controlFactory);
 
     default <T extends LayoutAwareControlFactory<?>> T add(String id, T controlFactory) {
@@ -59,11 +58,13 @@ public interface CompositeBuilder {
         return add(id, new ComboDescription());
     }
 
-    default <C extends Control> PluggableControlDescription<C> control(BiFunction<Composite, Integer, C> factory) {
+    default <C extends Control> PluggableControlDescription<C> control(
+                                                                       BiFunction<Composite, Integer, C> factory) {
         return control(null, factory);
     }
 
-    default <C extends Control> PluggableControlDescription<C> control(String id,
+    default <C extends Control> PluggableControlDescription<C> control(
+                                                                       String id,
                                                                        BiFunction<Composite, Integer, C> factory) {
         return add(id, new PluggableControlDescription<>(factory));
     }
@@ -131,5 +132,4 @@ public interface CompositeBuilder {
     default LabelDescription horizontalSeparator(String id) {
         return add(id, new LabelDescription().style(SWT.SEPARATOR | SWT.HORIZONTAL));
     }
-
 }

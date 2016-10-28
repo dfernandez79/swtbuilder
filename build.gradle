@@ -1,29 +1,46 @@
+plugins {
+  id "com.diffplug.gradle.spotless" version "2.2.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'osgi'
+
 group 'swtbuilder'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-
 repositories {
-    mavenCentral()
-    maven {
-      url "http://maven-eclipse.github.io/maven"
-    }
+  mavenCentral()
+  maven {
+    url "http://maven-eclipse.github.io/maven"
+  }
 }
 
 
 static String swtOSVariant() {
-    final String osName = System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
+  final String osName = System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
 
-    switch (osName) {
-        case { it.contains('mac') }: return 'cocoa.macosx.x86_64'
-        case { it.contains('windows') }: return 'win32.win32.x86_64'
-        case { it.contains('linux') }: return 'gtk.linux.x86_64'
+  switch (osName) {
+    case { it.contains('mac') }: return 'cocoa.macosx.x86_64'
+    case { it.contains('windows') }: return 'win32.win32.x86_64'
+    case { it.contains('linux') }: return 'gtk.linux.x86_64'
 
-        default: throw new GradleException("Cannot determine the SWT dependencies for '${osName}'")
-    }
+    default: throw new GradleException("Cannot determine the SWT dependencies for '${osName}'")
+  }
 }
 
 dependencies {
-    compile "org.eclipse.swt:org.eclipse.swt.${swtOSVariant()}:4.6"
-    testCompile 'junit:junit:4.12'
+  compile "org.eclipse.swt:org.eclipse.swt.${swtOSVariant()}:4.6"
+  testCompile 'junit:junit:4.12'
 }
+
+test {
+  jvmArgs '-XstartOnFirstThread'
+}
+
+spotless {
+  java {
+    eclipseFormatFile 'config/java-format.xml'
+  }
+}
+
+task format(dependsOn: ['spotlessApply'])

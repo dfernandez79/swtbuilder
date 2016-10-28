@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Composite;
 import java.util.function.Consumer;
 
 public class SWTBuilder {
-
     public static ControlRefs createChildrenOf(Composite parent, Consumer<CompositeBuilder> fn) {
         // TODO Create a CompositeDescriptionAdapter (or similar)
         ControlRefs refs = new ControlRefs();
@@ -20,5 +19,4 @@ public class SWTBuilder {
     public static Composite composite(Composite parent, Consumer<CompositeBuilder> fn) {
         return new CompositeDescription().children(fn).createControl(parent);
     }
-
 }

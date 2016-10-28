@@ -4,7 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
 public class TextDescription extends AbstractControlDescription<TextDescription, Text> {
-
     private String text;
 
     public TextDescription() {
@@ -23,5 +22,4 @@ public class TextDescription extends AbstractControlDescription<TextDescription,
         this.text = text;
         return this;
     }
-
 }

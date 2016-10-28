@@ -3,7 +3,6 @@ package swtbuilder;
 import org.eclipse.swt.widgets.Label;
 
 public class LabelDescription extends AbstractControlDescription<LabelDescription, Label> {
-
     private String text;
 
     public LabelDescription() {

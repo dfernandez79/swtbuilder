@@ -4,7 +4,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 public class IdentifiableControlFactory implements LayoutAwareControlFactory<Control> {
-
     private final String id;
     private final LayoutAwareControlFactory<?> factory;
 
@@ -28,5 +27,4 @@ public class IdentifiableControlFactory implements LayoutAwareControlFactory<Con
 
         return newControl;
     }
-
 }

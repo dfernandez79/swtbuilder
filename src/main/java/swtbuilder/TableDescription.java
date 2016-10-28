@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class TableDescription extends AbstractControlDescription<TableDescription, Table> {
-
     // TODO Add support for images
     private final List<String> columns = new ArrayList<>();
     private final List<String[]> items = new ArrayList<>();
@@ -47,5 +46,4 @@ public class TableDescription extends AbstractControlDescription<TableDescriptio
         Collections.addAll(columns, names);
         return this;
     }
-
 }

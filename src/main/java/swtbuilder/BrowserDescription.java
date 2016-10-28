@@ -1,19 +1,19 @@
 package swtbuilder;
 
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
-import org.eclipse.swt.browser.ProgressAdapter;
-import org.eclipse.swt.browser.ProgressEvent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BrowserDescription extends AbstractControlDescription<BrowserDescription, Browser> {
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
+import org.eclipse.swt.browser.ProgressAdapter;
+import org.eclipse.swt.browser.ProgressEvent;
 
+public class BrowserDescription extends AbstractControlDescription<BrowserDescription, Browser> {
     private String url;
-    private final List<EventListenerLambda<ProgressEvent, Browser>> progressCompletionListeners = new ArrayList<>();
+    private final List<EventListenerLambda<ProgressEvent, Browser>> progressCompletionListeners =
+            new ArrayList<>();
     private final Map<String, BrowserFunctionLambda> functions = new HashMap<>();
 
     public BrowserDescription() {
@@ -76,5 +76,4 @@ public class BrowserDescription extends AbstractControlDescription<BrowserDescri
         this.url = url;
         return this;
     }
-
 }

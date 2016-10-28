@@ -1,10 +1,5 @@
 package swtbuilder;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +8,13 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-public abstract class AbstractControlDescription<D extends ControlDescription<D, C>, C extends Control> implements ControlDescription<D, C> {
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+
+public abstract class AbstractControlDescription<D extends ControlDescription<D, C>, C extends Control>
+    implements ControlDescription<D, C> {
 
     private int style = SWT.NONE;
     private final Map<String, Object> layoutData = new HashMap<>();
@@ -95,5 +96,4 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
     public Object layoutData(String name) {
         return layoutData.get(name);
     }
-
 }

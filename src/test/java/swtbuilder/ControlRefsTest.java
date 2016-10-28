@@ -4,7 +4,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.Test;
 
 public class ControlRefsTest {
-
     @Test(expected = UnknownControlException.class)
     public void throwsExceptionForUnknownControls() {
         ControlRefs refs = new ControlRefs();
@@ -15,6 +14,7 @@ public class ControlRefsTest {
     public void throwsExceptionWhenAnIdIsUsedMultipleTimes() {
         Shell shell = new Shell();
         ControlRefs refs = new ControlRefs();
+
         try {
             refs.add("test", shell);
             refs.add("test", shell);
@@ -22,5 +22,4 @@ public class ControlRefsTest {
             shell.dispose();
         }
     }
-
 }
