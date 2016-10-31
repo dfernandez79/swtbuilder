@@ -79,3 +79,9 @@ project(':builder') {
     }
   }
 }
+
+project(':examples') {
+  dependencies {
+    compile project(':builder')
+  }
+}
