@@ -1,25 +1,16 @@
 package swtbuilder;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static swtbuilder.SWTBuilder.composite;
-import static swtbuilder.SWTBuilder.createChildrenOf;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static swtbuilder.SWTBuilder.*;
 
 public class SWTBuilderTest {
     private Shell shell;
@@ -36,7 +27,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createLabel() {
-        createChildrenOf(shell, c -> c.label().text("Hello World!"));
+        createChildren(shell, c -> c.label().text("Hello World!"));
 
         assertEquals(1, shell.getChildren().length);
         assertEquals("Hello World!", ((Label) shell.getChildren()[0]).getText());
@@ -44,7 +35,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createLabelWithStyle() {
-        createChildrenOf(shell, c -> {
+        createChildren(shell, c -> {
             c.label().text("Hello World!").style(SWT.RIGHT);
             c.label().text("Other");
         });
@@ -55,7 +46,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createLabelWithId() {
-        ControlRefs result = createChildrenOf(shell, c -> c.label("test").text("Hello!"));
+        ControlRefs result = createChildren(shell, c -> c.label("test").text("Hello!"));
 
         assertNotNull(result);
         assertEquals("Hello!", result.label("test").getText());
@@ -63,7 +54,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createButton() {
-        createChildrenOf(shell, c -> c.button().text("A Button"));
+        createChildren(shell, c -> c.button().text("A Button"));
 
         assertEquals(1, shell.getChildren().length);
         assertEquals("A Button", ((Button) shell.getChildren()[0]).getText());
@@ -71,7 +62,8 @@ public class SWTBuilderTest {
 
     @Test
     public void createButtonWithSelectionListener() {
-        ControlRefs result = createChildrenOf(shell, c -> c.button("btn").onSelection(() -> {}));
+        ControlRefs result = createChildren(shell, c -> c.button("btn").onSelection(() -> {
+        }));
 
         assertEquals(1, result.get("btn").getListeners(SWT.Selection).length);
         assertTrue(result.get("btn").isListening(SWT.Selection));
@@ -81,7 +73,7 @@ public class SWTBuilderTest {
     public void eventListenerReferencingItself() {
         final String[] capturedText = new String[1];
 
-        ControlRefs result = createChildrenOf(shell, c -> {
+        ControlRefs result = createChildren(shell, c -> {
             c.button("btn")
                     .text("Button")
                     .onSelection((evt, btn) -> capturedText[0] = btn.getText());
@@ -96,7 +88,7 @@ public class SWTBuilderTest {
     public void eventListenerReferencingAnotherControl() {
         final String[] capturedText = new String[1];
 
-        ControlRefs result = createChildrenOf(shell, c -> {
+        ControlRefs result = createChildren(shell, c -> {
             c.label("label").text("Hello!");
             c.button("btn").onSelection((evt, btn, refs) -> capturedText[0] = refs.label("label").getText());
         });
@@ -110,7 +102,7 @@ public class SWTBuilderTest {
     public void eventListenerWithEventReferenceOnly() {
         final String[] capturedText = new String[1];
 
-        ControlRefs result = createChildrenOf(shell, c -> {
+        ControlRefs result = createChildren(shell, c -> {
             c.label("label").text("Hello!");
             c.button("btn").onSelection((evt) -> capturedText[0] = evt.text);
         });
@@ -124,7 +116,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createReadOnlyCombo() {
-        ControlRefs result = createChildrenOf(shell, c -> c.dropdown("cbo").items("Option 1", "Option 2"));
+        ControlRefs result = createChildren(shell, c -> c.dropdown("cbo").items("Option 1", "Option 2"));
 
         Combo created = result.combo("cbo");
         assertEquals(2, created.getItemCount());
@@ -134,7 +126,9 @@ public class SWTBuilderTest {
 
     @Test
     public void createComposite() {
-        Composite result = composite(shell, c -> c.label().text("Hello"));
+        Composite result = composite()
+                .children(c -> c.label().text("Hello"))
+                .createControl(shell);
 
         assertNotNull(result);
         assertEquals(1, result.getChildren().length);
@@ -144,7 +138,9 @@ public class SWTBuilderTest {
 
     @Test
     public void genericControlUsage() {
-        Composite result = composite(shell, c -> c.control(Label::new).setUp(label -> label.setText("Testing")));
+        Composite result = composite()
+                .children(c -> c.control(Label::new).setUp(label -> label.setText("Testing")))
+                .createControl(shell);
 
         assertNotNull(result);
         assertEquals(1, result.getChildren().length);
@@ -155,7 +151,7 @@ public class SWTBuilderTest {
     @Test
     public void createCheckbox() {
         Button created =
-                (Button) createChildrenOf(shell, c -> c.checkbox("test").text("A checkbox").selected()).get("test");
+                (Button) createChildren(shell, c -> c.checkbox("test").text("A checkbox").selected()).get("test");
 
         assertTrue((created.getStyle() & SWT.CHECK) == SWT.CHECK);
         assertTrue(created.getSelection());
@@ -163,7 +159,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createUnselectedCheckbox() {
-        Button created = (Button) createChildrenOf(shell, c -> c.checkbox("test").text("A checkbox").selected(false))
+        Button created = (Button) createChildren(shell, c -> c.checkbox("test").text("A checkbox").selected(false))
                 .get("test");
 
         assertTrue((created.getStyle() & SWT.CHECK) == SWT.CHECK);
@@ -172,14 +168,14 @@ public class SWTBuilderTest {
 
     @Test
     public void createLink() {
-        Link created = (Link) createChildrenOf(shell, c -> c.link("test").text("This is a <a>link</a>")).get("test");
+        Link created = (Link) createChildren(shell, c -> c.link("test").text("This is a <a>link</a>")).get("test");
 
         assertEquals("This is a <a>link</a>", created.getText());
     }
 
     @Test
     public void createEmptyGroup() {
-        Group group = createChildrenOf(shell, c -> c.group("test").text("A group")).group("test");
+        Group group = createChildren(shell, c -> c.group("test").text("A group")).group("test");
 
         assertEquals(0, group.getChildren().length);
         assertEquals("A group", group.getText());
@@ -187,9 +183,20 @@ public class SWTBuilderTest {
 
     @Test
     public void createTextInput() {
-        Text text = createChildrenOf(shell, c -> c.textInput("test").text("Hello")).textInput("test");
+        Text text = createChildren(shell, c -> c.textInput("test").text("Hello")).textInput("test");
 
         assertTrue((text.getStyle() & SWT.BORDER) == SWT.BORDER);
         assertEquals("Hello", text.getText());
+    }
+
+    @Test
+    public void createUsingFillLayout() {
+        shell.setSize(300, 200);
+        Label label = createChildren(shell, fillLayout(), c -> c.label("lbl").text("Hello")).label("lbl");
+
+        shell.layout();
+
+        assertEquals(shell.getClientArea().width, label.getSize().x);
+        assertEquals(shell.getClientArea().height, label.getSize().y);
     }
 }

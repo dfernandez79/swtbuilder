@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class TextDescription extends AbstractControlDescription<TextDescription, Text> {
     private String text;
+    private String message;
 
     public TextDescription() {
         super(Text::new);
@@ -16,10 +17,18 @@ public class TextDescription extends AbstractControlDescription<TextDescription,
         if (text != null) {
             control.setText(text);
         }
+        if (message != null) {
+            control.setMessage(message);
+        }
     }
 
     public TextDescription text(String text) {
         this.text = text;
+        return this;
+    }
+
+    public TextDescription message(String message) {
+        this.message = message;
         return this;
     }
 }

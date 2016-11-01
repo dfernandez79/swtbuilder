@@ -1,5 +1,11 @@
 package swtbuilder;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,17 +14,13 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-
 public abstract class AbstractControlDescription<D extends ControlDescription<D, C>, C extends Control>
-    implements ControlDescription<D, C> {
+        implements ControlDescription<D, C> {
 
     private int style = SWT.NONE;
     private final Map<String, Object> layoutData = new HashMap<>();
     private final List<BiConsumer<C, ControlRefs>> setUpBlocks = new ArrayList<>();
+    private final List<EventListenerLambda<DisposeEvent, C>> disposeListeners = new ArrayList<>();
     private final BiFunction<Composite, Integer, C> factory;
     private Integer width = null;
     private Integer height = null;
@@ -45,6 +47,10 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
             control.setBackground(Display.getCurrent().getSystemColor(backgroundColor));
         }
 
+        for (EventListenerLambda<DisposeEvent, C> listener : disposeListeners) {
+            control.addDisposeListener(e -> listener.handleEvent(e, control, refs));
+        }
+
         setUpControl(control, refs);
         applySetUpBlock(control, refs);
 
@@ -69,6 +75,22 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
     @Override
     public D background(int systemColor) {
         return chain(() -> backgroundColor = systemColor);
+    }
+
+    @Override public D onDispose(EventListenerLambda<DisposeEvent, C> handler) {
+        return chain(() -> disposeListeners.add(handler));
+    }
+
+    @Override public D onDispose(BiConsumerEventListenerLambda<DisposeEvent, C> handler) {
+        return chain(() -> disposeListeners.add(handler));
+    }
+
+    @Override public D onDispose(ConsumerEventListenerLambda<DisposeEvent, C> handler) {
+        return chain(() -> disposeListeners.add(handler));
+    }
+
+    @Override public D onDispose(NoArgsEventListenerLambda<DisposeEvent, C> handler) {
+        return chain(() -> disposeListeners.add(handler));
     }
 
     @Override

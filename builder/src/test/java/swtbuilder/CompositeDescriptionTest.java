@@ -1,11 +1,5 @@
 package swtbuilder;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static swtbuilder.FormLayoutDescription.fromBottomOf;
-import static swtbuilder.FormLayoutDescription.fromRightOf;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormData;
@@ -16,6 +10,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static swtbuilder.FormLayoutDescription.fromBottomOf;
+import static swtbuilder.FormLayoutDescription.fromRightOf;
 
 public class CompositeDescriptionTest {
     private Shell shell;
@@ -181,6 +181,22 @@ public class CompositeDescriptionTest {
                 .createControl(shell);
 
         assertTrue(result.getLayout() instanceof FillLayout);
+    }
+
+    @Test
+    public void applyFillLayout() {
+        ControlRefs refs = new ControlRefs();
+
+        Composite result = new CompositeDescription()
+                .fillLayout()
+                .size(300, 200)
+                .children(c -> c.label("lbl"))
+                .createControl(shell, refs);
+
+        result.layout();
+
+        assertEquals(300, refs.label("lbl").getSize().x);
+        assertEquals(200, refs.label("lbl").getSize().y);
     }
 
     @Test

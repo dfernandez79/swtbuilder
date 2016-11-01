@@ -1,11 +1,12 @@
 package swtbuilder;
 
+import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Control;
 
 import java.util.function.Consumer;
 
 public interface ControlDescription<D extends ControlDescription<D, C>, C extends Control>
-    extends Chainable<D>, LayoutAwareControlFactory<C> {
+        extends Chainable<D>, LayoutAwareControlFactory<C> {
 
     D style(int style);
 
@@ -18,6 +19,14 @@ public interface ControlDescription<D extends ControlDescription<D, C>, C extend
     D layoutData(String name, Object value);
 
     D background(int systemColor);
+
+    D onDispose(EventListenerLambda<DisposeEvent, C> handler);
+
+    D onDispose(BiConsumerEventListenerLambda<DisposeEvent, C> handler);
+
+    D onDispose(ConsumerEventListenerLambda<DisposeEvent, C> handler);
+
+    D onDispose(NoArgsEventListenerLambda<DisposeEvent, C> handler);
 
     default D size(int width, int height) {
         return width(width).height(height);

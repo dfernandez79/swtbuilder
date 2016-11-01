@@ -5,18 +5,29 @@ import org.eclipse.swt.widgets.Composite;
 import java.util.function.Consumer;
 
 public class SWTBuilder {
-    public static ControlRefs createChildrenOf(Composite parent, Consumer<CompositeBuilder> fn) {
-        // TODO Create a CompositeDescriptionAdapter (or similar)
-        ControlRefs refs = new ControlRefs();
+    public static ControlRefs createChildren(Composite parent, Consumer<CompositeBuilder> fn) {
+        return createChildren(parent, formLayout(), fn);
+    }
 
+    public static FormLayoutDescription formLayout() {
+        return new FormLayoutDescription();
+    }
+
+    public static FillLayoutDescription fillLayout() {
+        return new FillLayoutDescription();
+    }
+
+    public static ControlRefs createChildren(Composite parent, LayoutDescription layoutDescription,
+                                             Consumer<CompositeBuilder> fn) {
+        ControlRefs refs = new ControlRefs();
         ChildBuilder builder = new ChildBuilder();
         fn.accept(builder);
-        builder.createAndLayoutChildren(parent, new FormLayoutDescription(), refs);
+        builder.createAndLayoutChildren(parent, layoutDescription, refs);
 
         return refs;
     }
 
-    public static Composite composite(Composite parent, Consumer<CompositeBuilder> fn) {
-        return new CompositeDescription().children(fn).createControl(parent);
+    public static CompositeDescription composite() {
+        return new CompositeDescription();
     }
 }
