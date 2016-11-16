@@ -2,7 +2,7 @@
 *.iml
 build
 .gradle
-/.settings
-/.classpath
-/.project
+.settings
+.classpath
+.project
 bin/

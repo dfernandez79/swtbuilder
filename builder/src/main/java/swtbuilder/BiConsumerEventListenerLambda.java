@@ -1,11 +1,10 @@
 package swtbuilder;
 
-import java.util.EventObject;
 import java.util.function.BiConsumer;
 
 import org.eclipse.swt.widgets.Control;
 
-public interface BiConsumerEventListenerLambda<E extends EventObject, C extends Control>
+public interface BiConsumerEventListenerLambda<E, C extends Control>
     extends EventListenerLambda<E, C>, BiConsumer<E, C> {
 
     @Override

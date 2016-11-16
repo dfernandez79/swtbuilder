@@ -1,11 +1,10 @@
 package swtbuilder;
 
-import java.util.EventObject;
 import java.util.function.Consumer;
 
 import org.eclipse.swt.widgets.Control;
 
-public interface ConsumerEventListenerLambda<E extends EventObject, C extends Control>
+public interface ConsumerEventListenerLambda<E, C extends Control>
     extends EventListenerLambda<E, C>, Consumer<E> {
 
     @Override
