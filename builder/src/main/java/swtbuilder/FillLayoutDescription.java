@@ -31,6 +31,5 @@ public class FillLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public void layoutControl(Control control, LayoutDataDescription layoutDataDescription, ControlRefs refs) {
-    }
+    public void layoutControl(Control control, LayoutDataDescription layoutDataDescription, ControlRefs refs) {}
 }

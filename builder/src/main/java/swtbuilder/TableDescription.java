@@ -37,7 +37,7 @@ public class TableDescription extends AbstractControlDescription<TableDescriptio
         for (TableColumn col : control.getColumns()) {
             col.pack();
         }
-        
+
         for (EventListenerLambda<Event, Table> listener : eraseItemListeners) {
             control.addListener(SWT.EraseItem, (event) -> listener.handleEvent(event, control, refs));
         }
@@ -52,7 +52,7 @@ public class TableDescription extends AbstractControlDescription<TableDescriptio
         Collections.addAll(columns, names);
         return this;
     }
-    
+
     public TableDescription onEraseItem(EventListenerLambda<Event, Table> handler) {
         eraseItemListeners.add(handler);
         return this;

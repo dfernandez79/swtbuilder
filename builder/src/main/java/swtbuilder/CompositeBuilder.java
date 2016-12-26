@@ -58,14 +58,12 @@ public interface CompositeBuilder {
         return add(id, new ComboDescription());
     }
 
-    default <C extends Control> PluggableControlDescription<C> control(
-            BiFunction<Composite, Integer, C> factory) {
+    default <C extends Control> PluggableControlDescription<C> control(BiFunction<Composite, Integer, C> factory) {
         return control(null, factory);
     }
 
-    default <C extends Control> PluggableControlDescription<C> control(
-            String id,
-            BiFunction<Composite, Integer, C> factory) {
+    default <C extends Control> PluggableControlDescription<C> control(String id,
+                                                                       BiFunction<Composite, Integer, C> factory) {
         return add(id, new PluggableControlDescription<>(factory));
     }
 

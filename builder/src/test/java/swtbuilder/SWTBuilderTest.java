@@ -62,8 +62,7 @@ public class SWTBuilderTest {
 
     @Test
     public void createButtonWithSelectionListener() {
-        ControlRefs result = createChildren(shell, c -> c.button("btn").onSelection(() -> {
-        }));
+        ControlRefs result = createChildren(shell, c -> c.button("btn").onSelection(() -> {}));
 
         assertEquals(1, result.get("btn").getListeners(SWT.Selection).length);
         assertTrue(result.get("btn").isListening(SWT.Selection));

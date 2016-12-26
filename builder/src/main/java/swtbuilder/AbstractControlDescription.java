@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public abstract class AbstractControlDescription<D extends ControlDescription<D, C>, C extends Control>
-        implements ControlDescription<D, C> {
+    implements ControlDescription<D, C> {
 
     private int style = SWT.NONE;
     private final Map<String, Object> layoutData = new HashMap<>();
@@ -77,19 +77,23 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
         return chain(() -> backgroundColor = systemColor);
     }
 
-    @Override public D onDispose(EventListenerLambda<DisposeEvent, C> handler) {
+    @Override
+    public D onDispose(EventListenerLambda<DisposeEvent, C> handler) {
         return chain(() -> disposeListeners.add(handler));
     }
 
-    @Override public D onDispose(BiConsumerEventListenerLambda<DisposeEvent, C> handler) {
+    @Override
+    public D onDispose(BiConsumerEventListenerLambda<DisposeEvent, C> handler) {
         return chain(() -> disposeListeners.add(handler));
     }
 
-    @Override public D onDispose(ConsumerEventListenerLambda<DisposeEvent, C> handler) {
+    @Override
+    public D onDispose(ConsumerEventListenerLambda<DisposeEvent, C> handler) {
         return chain(() -> disposeListeners.add(handler));
     }
 
-    @Override public D onDispose(NoArgsEventListenerLambda<DisposeEvent, C> handler) {
+    @Override
+    public D onDispose(NoArgsEventListenerLambda<DisposeEvent, C> handler) {
         return chain(() -> disposeListeners.add(handler));
     }
 
