@@ -15,6 +15,7 @@ import static swtbuilder.FormLayoutDescription.fromBottomOf;
 import static swtbuilder.SWTBuilder.createChildren;
 import static swtbuilder.SWTBuilder.composite;
 
+// TODO Move out of examples
 public class ProjectProperties extends Example {
     public static void main(String[] args) {
         new ProjectProperties().run();

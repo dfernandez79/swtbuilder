@@ -2,9 +2,6 @@ plugins {
   id "com.diffplug.gradle.spotless" version "2.2.0" apply false
 }
 
-group 'swtbuilder'
-version '1.0-SNAPSHOT'
-
 static String swtOSVariant() {
   final String osName = System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
 
@@ -16,8 +13,14 @@ static String swtOSVariant() {
   }
 }
 
+allprojects {
+  group 'swtbuilder'
+  version '0.0.1'
+}
+
 subprojects {
   apply plugin: 'java'
+  apply plugin: 'eclipse'
   apply plugin: 'com.diffplug.gradle.spotless'
 
   repositories {
@@ -54,6 +57,17 @@ project(':builder') {
 
   jar {
     baseName 'swtbuilder'
+    manifest {
+      version project.version
+      symbolicName project.group
+      name project.group
+    }
+  }
+
+  eclipse {
+    project {
+      natures 'org.eclipse.pde.PluginNature'
+    }
   }
 
   test {
@@ -78,6 +92,17 @@ project(':builder') {
       }
     }
   }
+
+  task generateManifest(dependsOn: ['jar']) {
+    outputs.dir 'META-INF'
+
+    doLast {
+      jar.manifest.writeTo('META-INF/MANIFEST.MF')
+    }
+  }
+
+  tasks.eclipse.dependsOn(generateManifest)
+  tasks.cleanEclipse.dependsOn(['cleanGenerateManifest'])
 }
 
 project(':examples') {

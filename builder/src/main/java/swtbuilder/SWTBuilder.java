@@ -17,6 +17,10 @@ public class SWTBuilder {
         return new FillLayoutDescription();
     }
 
+    public static RowLayoutDescription rowLayout() {
+        return new RowLayoutDescription();
+    }
+
     public static ControlRefs createChildren(Composite parent, LayoutDescription layoutDescription,
                                              Consumer<CompositeBuilder> fn) {
         ControlRefs refs = new ControlRefs();
