@@ -138,4 +138,20 @@ public interface CompositeBuilder {
     default LabelDescription verticalSeparator(String id) {
         return label(id).style(SWT.SEPARATOR | SWT.VERTICAL);
     }
+
+    default TreeDescription tree() {
+        return tree(null);
+    }
+
+    default TreeDescription tree(String id) {
+        return add(id, new TreeDescription());
+    }
+
+    default ListDescription list() {
+        return list(null);
+    }
+
+    default ListDescription list(String id) {
+        return add(id, new ListDescription());
+    }
 }

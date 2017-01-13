@@ -29,7 +29,7 @@ public abstract class AbstractCompositeDescription<D extends ControlDescription<
         return chain(() -> fn.accept(builder));
     }
 
-    public D fillLayout() {
-        return chain(() -> layoutDescription = new FillLayoutDescription());
+    public D layout(LayoutDescription layoutDescription) {
+        return chain(() -> this.layoutDescription = layoutDescription);
     }
 }

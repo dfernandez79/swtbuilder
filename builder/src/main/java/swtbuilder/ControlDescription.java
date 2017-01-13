@@ -10,6 +10,8 @@ public interface ControlDescription<D extends ControlDescription<D, C>, C extend
 
     D style(int style);
 
+    D addStyle(int style);
+
     D setUp(Consumer<C> fn);
 
     D width(int width);

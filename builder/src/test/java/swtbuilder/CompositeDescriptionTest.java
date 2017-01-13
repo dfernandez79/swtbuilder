@@ -14,8 +14,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static swtbuilder.FormLayoutDescription.fromBottomOf;
-import static swtbuilder.FormLayoutDescription.fromRightOf;
+import static swtbuilder.FormLayoutDescription.*;
 
 public class CompositeDescriptionTest {
     private Shell shell;
@@ -175,9 +174,69 @@ public class CompositeDescriptionTest {
     }
 
     @Test
+    public void fromLeftOfOtherControl() {
+        ControlRefs refs = new ControlRefs();
+
+        new CompositeDescription()
+                .children(d -> {
+                    d.label("test").left(10).top(0).size(100, 20).text("Test");
+                    d.label("other").top(fromLeftOf("test", 3));
+                })
+                .createControl(shell, refs);
+
+        Label label = refs.label("other");
+        FormData data = (FormData) label.getLayoutData();
+
+        assertTrue(data.top != null);
+        assertEquals(data.top.control, refs.label("test"));
+        assertEquals(data.top.offset, -3);
+        assertEquals(data.top.alignment, SWT.LEFT);
+    }
+
+    @Test
+    public void fromTopOfOtherControl() {
+        ControlRefs refs = new ControlRefs();
+
+        new CompositeDescription()
+                .children(d -> {
+                    d.label("test").bottom(0).top(0).size(100, 20).text("Test");
+                    d.label("other").top(fromTopOf("test", 3));
+                })
+                .createControl(shell, refs);
+
+        Label label = refs.label("other");
+        FormData data = (FormData) label.getLayoutData();
+
+        assertTrue(data.top != null);
+        assertEquals(data.top.control, refs.label("test"));
+        assertEquals(data.top.offset, -3);
+        assertEquals(data.top.alignment, SWT.TOP);
+    }
+
+    @Test
+    public void fromMiddleOfOtherControl() {
+        ControlRefs refs = new ControlRefs();
+
+        new CompositeDescription()
+                .children(d -> {
+                    d.label("test").bottom(0).top(0).size(100, 20).text("Test");
+                    d.label("other").top(fromMiddleOf("test", 3));
+                })
+                .createControl(shell, refs);
+
+        Label label = refs.label("other");
+        FormData data = (FormData) label.getLayoutData();
+
+        assertTrue(data.top != null);
+        assertEquals(data.top.control, refs.label("test"));
+        assertEquals(data.top.offset, 3);
+        assertEquals(data.top.alignment, SWT.CENTER);
+    }
+
+    @Test
     public void useFillLayout() {
         Composite result = new CompositeDescription()
-                .fillLayout()
+                .layout(new FillLayoutDescription())
                 .createControl(shell);
 
         assertTrue(result.getLayout() instanceof FillLayout);
@@ -188,7 +247,7 @@ public class CompositeDescriptionTest {
         ControlRefs refs = new ControlRefs();
 
         Composite result = new CompositeDescription()
-                .fillLayout()
+                .layout(new FillLayoutDescription())
                 .size(300, 200)
                 .children(c -> c.label("lbl"))
                 .createControl(shell, refs);

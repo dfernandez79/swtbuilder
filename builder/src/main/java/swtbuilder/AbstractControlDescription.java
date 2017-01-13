@@ -36,6 +36,11 @@ public abstract class AbstractControlDescription<D extends ControlDescription<D,
     }
 
     @Override
+    public D addStyle(int style) {
+        return chain(() -> this.style |= style);
+    }
+
+    @Override
     public C createControl(Composite parent, ControlRefs refs) {
         C control = factory.apply(parent, style);
 
