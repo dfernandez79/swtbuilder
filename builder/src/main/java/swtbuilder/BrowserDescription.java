@@ -37,6 +37,7 @@ public class BrowserDescription extends AbstractControlDescription<BrowserDescri
             new BrowserFunction(control, entry.getKey()) {
                 @Override
                 public Object function(Object[] arguments) {
+                    super.function(arguments);
                     return entry.getValue().apply(arguments);
                 }
             };
