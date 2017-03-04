@@ -1,20 +1,18 @@
 package swtbuilder.examples;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
-
 import static swtbuilder.FormLayoutDescription.fromBottomOf;
 import static swtbuilder.FormLayoutDescription.fromLeftOf;
 import static swtbuilder.FormLayoutDescription.fromTopOf;
 import static swtbuilder.SWTBuilder.createChildren;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
+import swtbuilder.SWTBuilder;
+
 /**
- * http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet65.java
+ * {@link SWTBuilder} equivalent of:
+ *
+ * <a href="http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet65.java"> FormLayout example snippet</a>
  */
 public class SimpleDialog extends Example {
     public static void main(String[] args) {

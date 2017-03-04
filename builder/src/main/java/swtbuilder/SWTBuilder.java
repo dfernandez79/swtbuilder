@@ -4,7 +4,9 @@ import org.eclipse.swt.widgets.Composite;
 
 import java.util.function.Consumer;
 
-public class SWTBuilder {
+public final class SWTBuilder {
+    private SWTBuilder() {}
+
     public static ControlRefs createChildren(Composite parent, Consumer<CompositeBuilder> fn) {
         return createChildren(parent, formLayout(), fn);
     }

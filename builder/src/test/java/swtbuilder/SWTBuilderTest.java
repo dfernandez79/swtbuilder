@@ -1,6 +1,7 @@
 package swtbuilder;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static swtbuilder.SWTBuilder.*;
 
+// TODO add support for disposable values (ie Color, Font, etc)
 public class SWTBuilderTest {
     private Shell shell;
 
@@ -197,5 +199,20 @@ public class SWTBuilderTest {
 
         assertEquals(shell.getClientArea().width, label.getSize().x);
         assertEquals(shell.getClientArea().height, label.getSize().y);
+    }
+
+    @Test
+    public void createUsingRowLayout() {
+        shell.setSize(300, 200);
+        ControlRefs refs = createChildren(shell, rowLayout(), c -> {
+            c.label("a").width(100);
+            c.label("b");
+        });
+
+        shell.layout();
+
+        assertTrue(shell.getLayout() instanceof RowLayout);
+        assertEquals(refs.label("a").getSize().x, 100);
+        assertEquals(refs.label("b").getLocation().x, 100 + ((RowLayout) shell.getLayout()).spacing * 2);
     }
 }
