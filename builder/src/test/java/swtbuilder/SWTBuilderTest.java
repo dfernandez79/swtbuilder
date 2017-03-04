@@ -47,6 +47,14 @@ public class SWTBuilderTest {
     }
 
     @Test
+    public void addStyle() {
+        Label label = createChildren(shell, c -> c.label("test").style(SWT.SEPARATOR).addStyle(SWT.VERTICAL)).label("test");
+
+        assertTrue((SWT.SEPARATOR & label.getStyle()) == SWT.SEPARATOR);
+        assertTrue((SWT.VERTICAL & label.getStyle()) == SWT.VERTICAL);
+    }
+
+    @Test
     public void createLabelWithId() {
         ControlRefs result = createChildren(shell, c -> c.label("test").text("Hello!"));
 
@@ -215,4 +223,55 @@ public class SWTBuilderTest {
         assertEquals(refs.label("a").getSize().x, 100);
         assertEquals(refs.label("b").getLocation().x, 100 + ((RowLayout) shell.getLayout()).spacing * 2);
     }
+
+    @Test
+    public void onDisposeWithoutArgs() {
+        boolean[] called = new boolean[1];
+        Label label = createChildren(shell, c -> c.label("a").onDispose(() -> called[0] = true)).label("a");
+        assertFalse(called[0]);
+        label.dispose();
+        assertTrue(called[0]);
+    }
+
+    @Test
+    public void onDisposeWithControl() {
+        Label[] expected = new Label[1];
+        boolean[] calledWithCorrectArg = new boolean[1];
+
+        expected[0] = createChildren(shell, c -> c.label("a").onDispose((evt, lbl) -> {
+            calledWithCorrectArg[0] = expected[0] == lbl;
+        })).label("a");
+
+        assertFalse(calledWithCorrectArg[0]);
+        expected[0].dispose();
+        assertTrue(calledWithCorrectArg[0]);
+    }
+
+    @Test
+    public void onDisposeWithEvent() {
+        Label[] expected = new Label[1];
+        boolean[] calledWithCorrectArg = new boolean[1];
+
+        expected[0] = createChildren(shell, c -> c.label("a").onDispose(evt -> {
+            calledWithCorrectArg[0] = expected[0] == evt.getSource();
+        })).label("a");
+
+        assertFalse(calledWithCorrectArg[0]);
+        expected[0].dispose();
+        assertTrue(calledWithCorrectArg[0]);
+    }
+
+    @Test
+    public void onDisposeWithControlRefs() {
+        boolean[] calledWithCorrectArg = new boolean[1];
+
+        Label label = createChildren(shell, c -> c.label("a").onDispose((evt, ctrl, refs) -> {
+            calledWithCorrectArg[0] = refs.label("a") == evt.getSource() && ctrl == refs.label("a");
+        })).label("a");
+
+        assertFalse(calledWithCorrectArg[0]);
+        label.dispose();
+        assertTrue(calledWithCorrectArg[0]);
+    }
+
 }
