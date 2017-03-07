@@ -1,6 +1,5 @@
 package swtbuilder;
 
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import java.util.function.Consumer;
