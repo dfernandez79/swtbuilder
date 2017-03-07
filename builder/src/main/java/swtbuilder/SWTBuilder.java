@@ -1,5 +1,6 @@
 package swtbuilder;
 
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import java.util.function.Consumer;
@@ -21,6 +22,18 @@ public final class SWTBuilder {
 
     public static RowLayoutDescription rowLayout() {
         return new RowLayoutDescription();
+    }
+
+    public static StackLayoutDescription stackLayout() {
+        return stackLayout(null);
+    }
+
+    public static StackLayoutDescription stackLayout(String topControlId) {
+        return stackLayout(topControlId, 0, 0);
+    }
+
+    public static StackLayoutDescription stackLayout(String topControlId, int marginWidth, int marginHeight) {
+        return new StackLayoutDescription(topControlId, marginWidth, marginHeight);
     }
 
     public static ControlRefs createChildren(Composite parent, LayoutDescription layoutDescription,

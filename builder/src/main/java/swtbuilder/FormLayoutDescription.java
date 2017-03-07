@@ -30,7 +30,7 @@ public class FormLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public FormLayout createLayout() {
+    public FormLayout createLayout(ControlRefs refs) {
         return new FormLayout();
     }
 

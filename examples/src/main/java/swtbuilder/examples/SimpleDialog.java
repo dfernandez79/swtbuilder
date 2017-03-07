@@ -12,7 +12,7 @@ import swtbuilder.SWTBuilder;
 /**
  * {@link SWTBuilder} equivalent of:
  *
- * <a href="http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet65.java"> FormLayout example snippet</a>
+ * <a href="http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet65.java">FormLayout example snippet</a>
  */
 public class SimpleDialog extends Example {
     public static void main(String[] args) {

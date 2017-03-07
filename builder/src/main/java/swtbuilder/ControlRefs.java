@@ -3,12 +3,7 @@ package swtbuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 public class ControlRefs {
     private final Map<String, Control> refs = new HashMap<>();
@@ -48,5 +43,9 @@ public class ControlRefs {
 
     public Group group(String name) {
         return (Group) get(name);
+    }
+
+    public Composite composite(String name) {
+        return (Composite) get(name);
     }
 }

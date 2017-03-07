@@ -10,7 +10,7 @@ import static swtbuilder.SWTBuilder.rowLayout;
 /**
  * {@link SWTBuilder} equivalent of:
  *
- * <a href="http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet108.java"> Button example snippet</a>
+ * <a href="http://git.eclipse.org/c/platform/eclipse.platform.swt.git/tree/examples/org.eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet108.java">Button example snippet</a>
  */
 public class DefaultButton extends Example {
     public static void main(String... args) {

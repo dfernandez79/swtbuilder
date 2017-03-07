@@ -48,7 +48,8 @@ public class SWTBuilderTest {
 
     @Test
     public void addStyle() {
-        Label label = createChildren(shell, c -> c.label("test").style(SWT.SEPARATOR).addStyle(SWT.VERTICAL)).label("test");
+        Label label =
+                createChildren(shell, c -> c.label("test").style(SWT.SEPARATOR).addStyle(SWT.VERTICAL)).label("test");
 
         assertTrue((SWT.SEPARATOR & label.getStyle()) == SWT.SEPARATOR);
         assertTrue((SWT.VERTICAL & label.getStyle()) == SWT.VERTICAL);

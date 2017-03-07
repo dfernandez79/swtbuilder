@@ -22,7 +22,7 @@ public class FillLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public FillLayout createLayout() {
+    public FillLayout createLayout(ControlRefs refs) {
         FillLayout layout = new FillLayout(type);
         layout.marginWidth = marginWidth;
         layout.marginHeight = marginHeight;

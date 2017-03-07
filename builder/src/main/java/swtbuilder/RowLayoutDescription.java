@@ -29,7 +29,7 @@ public class RowLayoutDescription implements LayoutDescription {
     }
 
     @Override
-    public RowLayout createLayout() {
+    public RowLayout createLayout(ControlRefs refs) {
         RowLayout layout = new RowLayout();
         layout.type = this.type;
         layout.center = this.center;

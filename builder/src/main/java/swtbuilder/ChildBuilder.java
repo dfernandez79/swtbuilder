@@ -20,7 +20,7 @@ public class ChildBuilder implements CompositeBuilder {
     public void createAndLayoutChildren(Composite parent, LayoutDescription layoutDescription, ControlRefs refs) {
         List<Control> controls = children.stream().map(d -> d.createControl(parent, refs)).collect(Collectors.toList());
 
-        parent.setLayout(layoutDescription.createLayout());
+        parent.setLayout(layoutDescription.createLayout(refs));
         Iterator<LayoutAwareControlFactory<?>> childrenIterator = children.iterator();
 
         for (Control childControl : controls) {
