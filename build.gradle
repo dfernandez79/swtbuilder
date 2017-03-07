@@ -2,14 +2,16 @@ plugins {
   id "com.diffplug.gradle.spotless" version "2.2.0" apply false
 }
 
-static String swtOSVariant() {
-  final String osName = System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
+static String osName() {
+  System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
+}
 
-  switch (osName) {
+static String swtOSVariant() {
+  switch (osName()) {
     case { it.contains('mac') }: return 'cocoa.macosx.x86_64'
     case { it.contains('windows') }: return 'win32.win32.x86_64'
     case { it.contains('linux') }: return 'gtk.linux.x86_64'
-    default: throw new GradleException("Cannot determine the SWT dependencies for '${osName}'")
+    default: throw new GradleException("Cannot determine the SWT dependencies for '${osName()}'")
   }
 }
 
@@ -80,12 +82,17 @@ project(':builder') {
     doLast {
       ant.junitTask(showoutput: true, fork: true, forkmode: 'once',
                     clonevm: true, haltonerror: true, haltonfailure: true) {
-        jvmarg(value: '-XstartOnFirstThread')
+
+        if (osName().contains('mac')) {
+          jvmarg(value: '-XstartOnFirstThread')
+        }
+
         batchtest(toDir: "${project.projectDir.path}/build/tests") {
           fileset (dir: project.sourceSets.test.output.classesDir) {
             include(name: '**/*Test.class')
           }
         }
+
         classpath(location: project.sourceSets.main.output.classesDir)
         classpath(location: project.sourceSets.test.output.classesDir)
         classpath(path: project.sourceSets.test.compileClasspath.asPath)
