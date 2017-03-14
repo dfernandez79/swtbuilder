@@ -102,7 +102,7 @@ project(':builder') {
     }
   }
 
-  task generateManifest {
+  task generateManifest(dependsOn: ['jar']) {
     outputs.dir 'META-INF'
 
     doLast {
