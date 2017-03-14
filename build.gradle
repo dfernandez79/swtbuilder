@@ -1,5 +1,5 @@
 plugins {
-  id "com.diffplug.gradle.spotless" version "2.2.0" apply false
+  id 'com.diffplug.gradle.spotless' version '3.0.0' apply false
 }
 
 static String osName() {
@@ -33,7 +33,7 @@ subprojects {
   }
 
   dependencies {
-    compile "org.eclipse.swt:org.eclipse.swt.${swtOSVariant()}:4.6"
+    compile "org.eclipse.swt:org.eclipse.swt.${swtOSVariant()}:4.6.1"
   }
 
   spotless {
@@ -60,6 +60,8 @@ project(':builder') {
   jar {
     baseName 'swtbuilder'
     manifest {
+      instruction '-removeheaders', 'Bnd-LastModified,Bundle-Name,Created-By,Tool,Private-Package'
+      instruction 'Bundle-RequiredExecutionEnvironment', 'JavaSE-1.8'
       version project.version
       symbolicName project.group
       name project.group
@@ -100,7 +102,7 @@ project(':builder') {
     }
   }
 
-  task generateManifest(dependsOn: ['jar']) {
+  task generateManifest {
     outputs.dir 'META-INF'
 
     doLast {
@@ -108,7 +110,7 @@ project(':builder') {
     }
   }
 
-  tasks.eclipse.dependsOn(generateManifest)
+  tasks.eclipse.dependsOn(['cleanEclipse', 'generateManifest'])
   tasks.cleanEclipse.dependsOn(['cleanGenerateManifest'])
 }
 
